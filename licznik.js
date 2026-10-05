@@ -26,8 +26,12 @@
   if (strona === 'start') {
     hit('wyswietlenia').then(function (v) { pokaz('razem', v); });
     hit('d-' + dzis).then(function (v) { pokaz('dzis', v); });
-    if (!ls('dr_bylem')) { ls('dr_bylem', '1'); hit('unikalni'); hit(/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'tel' : 'pc'); }
-    if (ls('dr_dzien') !== dzis) { ls('dr_dzien', dzis); hit('u-' + dzis); }
+    var nowy = !ls('dr_bylem');
+    if (nowy) { ls('dr_bylem', dzis); hit('unikalni'); hit('n-' + dzis); hit(/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'tel' : 'pc'); }
+    if (ls('dr_dzien') !== dzis) {        // pierwsze wejście tej przeglądarki dzisiaj
+      ls('dr_dzien', dzis); hit('u-' + dzis);
+      if (!nowy) { hit('powroty'); hit('p-' + dzis); }   // powracający: był już kiedyś wcześniej
+    }
   } else if (strona === 'gra') {
     hit('demo-wejscia');
     document.addEventListener('click', function (e) { if (e.target && e.target.id === 'bStart') hit('demo-start'); }, true);

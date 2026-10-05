@@ -23,7 +23,7 @@ header a{color:var(--muted);font:600 15px/1 var(--display);letter-spacing:.05em;
 header img{height:30px;width:auto;margin-left:auto}
 h1{font:800 clamp(34px,5vw,48px)/1.05 var(--display);margin:28px 0 6px;text-wrap:balance}
 .sub{color:var(--muted);margin:0 0 26px;max-width:65ch}
-.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
 .tile{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;display:grid;gap:6px;min-width:0}
 .tile .k{font:600 12px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .tile .v{font:800 38px/1 var(--display);font-variant-numeric:tabular-nums}
@@ -43,7 +43,7 @@ th,td{text-align:right;padding:7px 10px;border-bottom:1px solid var(--line);font
 th{font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .state{color:var(--muted);font-size:14px;margin-top:10px}
 .note{margin-top:34px;color:var(--muted);font-size:14px;max-width:70ch}
-@media (max-width:760px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){.tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}@media (max-width:560px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (prefers-reduced-motion:reduce){.tip{transition:none}}
 </style>
 </head>
@@ -55,6 +55,7 @@ th{font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color
   <div class="tiles">
     <div class="tile"><span class="k">Wyświetlenia</span><span class="v" id="t-wys">–</span><span class="o">strony głównej, łącznie</span></div>
     <div class="tile"><span class="k">Odwiedzający</span><span class="v" id="t-uni">–</span><span class="o">unikalne przeglądarki</span></div>
+    <div class="tile"><span class="k">Powroty</span><span class="v" id="t-pow">–</span><span class="o">dni z ponownym wejściem</span></div>
     <div class="tile"><span class="k">Zagrane demo</span><span class="v" id="t-start">–</span><span class="o"><span id="t-wej">–</span> wejść do gry</span></div>
     <div class="tile"><span class="k">Ukończone demo</span><span class="v" id="t-kon">–</span><span class="o">zmiana dograna do 9:00</span></div>
   </div>
@@ -62,7 +63,7 @@ th{font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color
   <p class="sub" style="margin:0">Wyświetlenia strony głównej dzień po dniu. Najedź na słupek, aby zobaczyć liczby.</p>
   <div class="chartbox" id="box"><svg id="ch" viewBox="0 0 900 260" role="img" aria-label="Wykres wyświetleń z ostatnich 14 dni"></svg><div class="tip" id="tip"></div></div>
   <div class="state" id="stan">Wczytywanie liczników…</div>
-  <details><summary>Tabela z liczbami</summary><div class="tw"><table id="tab"><thead><tr><th>Dzień</th><th>Wyświetlenia</th><th>Odwiedzający</th></tr></thead><tbody></tbody></table></div></details>
+  <details><summary>Tabela z liczbami</summary><div class="tw"><table id="tab"><thead><tr><th>Dzień</th><th>Wyświetlenia</th><th>Odwiedzający</th><th>w tym nowi</th><th>powracający</th></tr></thead><tbody></tbody></table></div></details>
   <h2>Urządzenia</h2>
   <p class="sub" style="margin:0">Komputer: <b id="t-pc">–</b> · telefon lub tablet: <b id="t-tel">–</b> (pierwsze wejście danej przeglądarki).</p>
   <p class="note">Liczniki prowadzi bezpłatna usługa Abacus. Wejścia autora można wyłączyć z liczenia, otwierając stronę z dopiskiem <code>?nieliczmnie</code> w adresie (zapamiętuje to przeglądarka).</p>
@@ -74,12 +75,12 @@ th{font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color
   var kolejka=Promise.resolve();
   function get(k){ // po kolei z odstępem – usługa przyjmuje 30 zapytań / 10 s
     var p=kolejka.then(function(){return fetch(API+'/get/'+NS+'/'+k).then(function(r){return r.json();}).then(function(j){return j.value||0;}).catch(function(){return 0;});});
-    kolejka=p.then(function(){return new Promise(function(ok){setTimeout(ok,380);});});return p;}
+    kolejka=p.then(function(){return new Promise(function(ok){setTimeout(ok,360);});});return p;}
   var f=function(v){return Number(v).toLocaleString('pl-PL');};
-  [['wyswietlenia','t-wys'],['unikalni','t-uni'],['demo-start','t-start'],['demo-wejscia','t-wej'],['demo-koniec','t-kon'],['pc','t-pc'],['tel','t-tel']].forEach(function(q){get(q[0]).then(function(v){document.getElementById(q[1]).textContent=f(v);});});
+  [['wyswietlenia','t-wys'],['unikalni','t-uni'],['powroty','t-pow'],['demo-start','t-start'],['demo-wejscia','t-wej'],['demo-koniec','t-kon'],['pc','t-pc'],['tel','t-tel']].forEach(function(q){get(q[0]).then(function(v){document.getElementById(q[1]).textContent=f(v);});});
   var dni=[],t=new Date();for(var i=13;i>=0;i--){var d=new Date(t);d.setDate(t.getDate()-i);dni.push(d);}
-  Promise.all(dni.map(function(d){return Promise.all([get('d-'+dz(d)),get('u-'+dz(d))]);})).then(function(w){
-    rysuj(dni.map(function(d,i){return {d:d,w:w[i][0],u:w[i][1]};}));document.getElementById('stan').textContent='Stan na '+new Date().toLocaleString('pl-PL',{dateStyle:'medium',timeStyle:'short'})+'.';});
+  Promise.all(dni.map(function(d){return Promise.all([get('d-'+dz(d)),get('u-'+dz(d)),get('n-'+dz(d)),get('p-'+dz(d))]);})).then(function(w){
+    rysuj(dni.map(function(d,i){return {d:d,w:w[i][0],u:w[i][1],n:w[i][2],p:w[i][3]};}));document.getElementById('stan').textContent='Stan na '+new Date().toLocaleString('pl-PL',{dateStyle:'medium',timeStyle:'short'})+'.';});
   function rysuj(D){
     var svg=document.getElementById('ch'),W=900,H=260,L=44,R=8,T=14,B=34,mx=Math.max(4,Math.max.apply(null,D.map(function(x){return x.w;})));
     var step=Math.pow(10,Math.floor(Math.log10(mx)));var tk=[1,2,5,10].map(function(m){return m*step;}).find(function(s){return mx/s<=5;});var top=Math.ceil(mx/tk)*tk;
@@ -94,10 +95,10 @@ th{font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color
     var tip=document.getElementById('tip'),box=document.getElementById('box');
     svg.querySelectorAll('.hit').forEach(function(el){el.addEventListener('mouseenter',function(){var i=+el.dataset.i,x=D[i],r=svg.getBoundingClientRect(),k=r.width/W,b=box.getBoundingClientRect();
       svg.querySelectorAll('.bar').forEach(function(p){p.classList.toggle('on',+p.dataset.i===i);});
-      tip.innerHTML='<b>'+x.d.toLocaleDateString('pl-PL',{weekday:'short',day:'numeric',month:'long'})+'</b><br>'+f(x.w)+' wyświetleń · '+f(x.u)+' odwiedzających';
+      tip.innerHTML='<b>'+x.d.toLocaleDateString('pl-PL',{weekday:'short',day:'numeric',month:'long'})+'</b><br>'+f(x.w)+' wyświetleń · '+f(x.u)+' odwiedzających<br>nowi: '+f(x.n)+' · powracający: '+f(x.p);
       tip.style.left=(r.left-b.left+(L+i*bw+bw/2)*k)+'px';tip.style.top=(r.top-b.top+y(x.w)*k-8)+'px';tip.style.opacity=1;});
       el.addEventListener('mouseleave',function(){tip.style.opacity=0;svg.querySelectorAll('.bar').forEach(function(p){p.classList.remove('on');});});});
-    document.querySelector('#tab tbody').innerHTML=D.slice().reverse().map(function(x){return '<tr><td>'+x.d.toLocaleDateString('pl-PL')+'</td><td>'+f(x.w)+'</td><td>'+f(x.u)+'</td></tr>';}).join('');
+    document.querySelector('#tab tbody').innerHTML=D.slice().reverse().map(function(x){return '<tr><td>'+x.d.toLocaleDateString('pl-PL')+'</td><td>'+f(x.w)+'</td><td>'+f(x.u)+'</td><td>'+f(x.n)+'</td><td>'+f(x.p)+'</td></tr>';}).join('');
   }
 })();
 </script>
