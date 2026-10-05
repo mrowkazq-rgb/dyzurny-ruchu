@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 330 64" role="img" aria-labelledby="t">
+  <title id="t">mrowkazq</title>
+  <style>
+    .k{fill:#14203a}.n{stroke:#14203a}.w{fill:#14203a}
+    @media (prefers-color-scheme:dark){.k{fill:#e6ecf8}.n{stroke:#e6ecf8}.w{fill:#e6ecf8}}
+  </style>
+  <!-- tor -->
+  <rect x="4" y="54" width="112" height="3" rx="1.5" fill="#8a94a6"/>
+  <g fill="#8a94a6"><rect x="12" y="58" width="9" height="3" rx="1"/><rect x="34" y="58" width="9" height="3" rx="1"/><rect x="56" y="58" width="9" height="3" rx="1"/><rect x="78" y="58" width="9" height="3" rx="1"/><rect x="100" y="58" width="9" height="3" rx="1"/></g>
+  <!-- nogi -->
+  <g class="n" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="48,38 40,44 36,54"/><polyline points="56,40 56,46 58,54"/><polyline points="63,38 72,44 78,54"/>
+  </g>
+  <!-- odwłok, tułów, głowa -->
+  <ellipse class="k" cx="28" cy="34" rx="18" ry="12.5"/>
+  <ellipse class="k" cx="55" cy="33" rx="10.5" ry="8"/>
+  <circle class="k" cx="78" cy="28" r="9.5"/>
+  <circle cx="82" cy="26" r="2.6" fill="#ffd400"/>
+  <!-- czułki jak pantograf -->
+  <g fill="none" stroke="#d93a2b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="81,19 86,7 101,5"/><polyline points="76,19 78,9 92,2"/>
+    <line x1="97" y1="5.5" x2="105" y2="4.5"/><line x1="88" y1="2.5" x2="96" y2="1.5"/>
+  </g>
+  <!-- napis -->
+  <text x="124" y="46" textLength="196" lengthAdjust="spacingAndGlyphs" font-family="'Barlow Condensed','Arial Narrow',Arial,sans-serif" font-weight="800" font-size="44" letter-spacing="0.5"><tspan class="w">mrowka</tspan><tspan fill="#e0a800">zq</tspan></text>
+</svg>

@@ -25,7 +25,7 @@
 <meta name="twitter:title" content="Dyżurny Ruchu Szczecin Główny – symulator nastawni i gra kolejowa">
 <meta name="twitter:description" content="Darmowa gra kolejowa: zostań dyżurnym ruchu na stacji Szczecin Główny. Prawdziwy rozkład PKP PLK, semafory, zapowiadanie pociągów, peron w 3D z siecią trakcyjną i modelami lokomotyw ze zdjęć. Graj w przeglądarce lub na Windows.">
 <meta name="twitter:image" content="https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/og.jpg">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoGame", "name": "Dyżurny Ruchu Szczecin Główny", "description": "Darmowa gra kolejowa: zostań dyżurnym ruchu na stacji Szczecin Główny. Prawdziwy rozkład PKP PLK, semafory, zapowiadanie pociągów, peron w 3D z siecią trakcyjną i modelami lokomotyw ze zdjęć. Graj w przeglądarce lub na Windows.", "url": "https://mrowkazq-rgb.github.io/dyzurny-ruchu/", "image": "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/og.jpg", "inLanguage": "pl", "genre": ["Symulator", "Gra kolejowa", "Strategia"], "gamePlatform": ["Przeglądarka internetowa", "Windows"], "applicationCategory": "Game", "operatingSystem": "Windows, przeglądarka", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "PLN"}, "screenshot": ["https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/mapa.jpg", "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/p3d_ep07.jpg", "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/p3d_spacer.jpg"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoGame", "name": "Dyżurny Ruchu Szczecin Główny", "description": "Darmowa gra kolejowa: zostań dyżurnym ruchu na stacji Szczecin Główny. Prawdziwy rozkład PKP PLK, semafory, zapowiadanie pociągów, peron w 3D z siecią trakcyjną i modelami lokomotyw ze zdjęć. Graj w przeglądarce lub na Windows. Gra w przygotowaniu – dostępna wkrótce.", "url": "https://mrowkazq-rgb.github.io/dyzurny-ruchu/", "image": "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/og.jpg", "inLanguage": "pl", "genre": ["Symulator", "Gra kolejowa", "Strategia"], "gamePlatform": ["Przeglądarka internetowa", "Windows"], "applicationCategory": "Game", "operatingSystem": "Windows, przeglądarka", "isAccessibleForFree": true, "screenshot": ["https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/mapa.jpg", "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/p3d_ep07.jpg", "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/p3d_spacer.jpg"]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
@@ -154,11 +154,23 @@ footer p{max-width:80ch}
   .step{grid-template-columns:1fr;gap:2px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+.autor{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--muted);font:600 13px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.autor img{height:24px;width:auto;display:block}
+.autor-stopka{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-bottom:18px}
+.autor-stopka img{height:48px;width:auto}
+.soon{display:grid;gap:10px;margin-top:28px;padding:16px 18px;border:1px dashed var(--accent);border-radius:var(--radius);background:color-mix(in srgb,var(--accent) 9%,transparent);max-width:60ch}
+.soon p{font-size:15.5px;color:var(--ink)}
+.badge{display:inline-flex;align-items:center;gap:8px;font:600 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent);padding:6px 9px;border-radius:3px;width:fit-content}
+.badge i{width:8px;height:8px;border-radius:50%;background:var(--signal-red);animation:migaj 1.6s steps(2) infinite}
+@keyframes migaj{50%{opacity:.25}}
+.btn[aria-disabled="true"]{opacity:.55;cursor:not-allowed;border-style:dashed}
+.btn[aria-disabled="true"] .lamp{background:var(--signal-red);box-shadow:none}
 </style>
 </head>
 <body><div class="wrap">
   <header class="top">
-    <div class="name">Dyżurny Ruchu <span>· Szczecin Główny</span></div>
+    <div class="name">Dyżurny Ruchu <span>· Szczecin Główny</span></div><a class="autor" href="#autor" title="Autor gry: mrowkazq"><span>gra od</span><img src="img/mrowkazq-logo.svg" alt="mrowkazq" width="124" height="24"></a>
     <nav aria-label="Sekcje">
       <a href="#gra">Gra</a><a href="#peron">Peron 3D</a><a href="#pojazdy">Pojazdy</a><a href="#sterowanie">Sterowanie</a><a href="#wersje">Wersje</a>
     </nav>
@@ -168,9 +180,13 @@ footer p{max-width:80ch}
     <div>
       <h1>Dyżurny Ruchu<small>Szczecin Główny · symulator nastawni</small></h1>
       <p class="lead">Przyjmujesz pociągi od sąsiednich posterunków, ustawiasz przebiegi na semaforach i wyprawiasz składy według prawdziwego rozkładu z plakatów stacyjnych. Doba na stacji z czterema peronami i ośmioma torami, a na każdy peron możesz zejść i zobaczyć wjeżdżający pociąg w 3D.</p>
+      <div class="soon" role="status">
+        <span class="badge"><i aria-hidden="true"></i>W budowie</span>
+        <p>Gra dopiero powstaje. Wersja w przeglądarce i wersja na Windows będą dostępne wkrótce. Na razie możesz zobaczyć, jak wygląda i nad czym trwają prace.</p>
+      </div>
       <div class="cta">
-        <a class="btn main" href="gra/"><span class="lamp" aria-hidden="true"></span>Zagraj w przeglądarce</a>
-        <a class="btn" href="#wersje">Pobierz na Windows</a>
+        <span class="btn main" aria-disabled="true"><span class="lamp" aria-hidden="true"></span>Zagraj – wkrótce</span>
+        <span class="btn" aria-disabled="true">Pobieranie – wkrótce</span>
       </div>
     </div>
     <div class="board" role="img" aria-label="Przykładowa tablica odjazdów z gry">
@@ -187,7 +203,7 @@ footer p{max-width:80ch}
   <section id="gra">
     <div class="split">
       <div class="intro">
-        <span class="eyebrow">Na nastawni</span>
+        <span class="eyebrow">Na nastawni · gra w budowie</span>
         <h2>Prawdziwy rozkład, uproszczone rozjazdy</h2>
         <p>Rozkład gra czyta z plakatów PKP PLK „Przyjazdy” i „Odjazdy” (PDF): godziny, perony, tory i dni kursowania. Jedna doba to od kilkudziesięciu do ponad dwustu pociągów. Układ torów to schemat oparty na stacji, a nie kopia urządzeń sterowania ruchem.</p>
         <p>Za udaną zmianę dostajesz punkty, a na koniec premię za zadowolenie podróżnych.</p>
@@ -275,6 +291,7 @@ footer p{max-width:80ch}
     <div class="intro">
       <span class="eyebrow">Wersje</span>
       <h2>W przeglądarce albo na Windows</h2>
+      <p>Obie wersje są w przygotowaniu i pojawią się tu wkrótce.</p>
     </div>
     <div class="versions">
       <div class="ver">
@@ -286,7 +303,7 @@ footer p{max-width:80ch}
           <li>Widok 3D pobiera bibliotekę graficzną, więc wymaga internetu.</li>
           <li>Zapis gry zostaje w tej przeglądarce.</li>
         </ul>
-        <div><a class="btn main" href="gra/">Zagraj teraz</a></div>
+        <div><span class="btn main" aria-disabled="true">Wkrótce</span></div>
       </div>
       <div class="ver">
         <span class="tag">Windows · DyzurnyRuchu.exe</span>
@@ -297,14 +314,15 @@ footer p{max-width:80ch}
           <li>Nowy model wystarczy wrzucić do folderu, bez instalacji gry od nowa.</li>
           <li>Plik nie ma podpisu cyfrowego. Przy pierwszym uruchomieniu wybierz „Więcej informacji” → „Uruchom mimo to”.</li>
         </ul>
-        <p style="color:var(--muted);font-size:14.5px">Rozpakuj ZIP i uruchom DyzurnyRuchu.exe (folder <code>modele</code> musi zostać obok).</p><div><a class="btn main" href="https://github.com/mrowkazq-rgb/dyzurny-ruchu/releases/latest">Pobierz dla Windows (ZIP)</a></div>
+        <p style="color:var(--muted);font-size:14.5px">Rozpakuj ZIP i uruchom DyzurnyRuchu.exe (folder <code>modele</code> musi zostać obok).</p><div><span class="btn main" aria-disabled="true">Wkrótce</span></div>
       </div>
     </div>
   </section>
 </div>
 
-<footer>
+<footer id="autor">
   <div class="wrap">
+    <div class="autor-stopka"><img src="img/mrowkazq-logo.svg" alt="mrowkazq – autor gry" width="248" height="48"><p>Grę tworzy <b>mrowkazq</b>: pomysł, zdjęcia pojazdów na stacji Szczecin Główny i testy. © 2026 mrowkazq.</p></div>
     <p>Dyżurny Ruchu Szczecin Główny to gra fanowska. Nie jest związana z PKP Polskimi Liniami Kolejowymi, PKP Intercity ani Polregio. Rozkład pochodzi z publicznych plakatów stacyjnych, układ torów jest uproszczony, a składy wagonów są orientacyjne.</p>
   </div>
 </footer>
