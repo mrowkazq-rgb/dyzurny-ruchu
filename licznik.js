@@ -9,10 +9,20 @@
   function pokaz(nazwa, v) { document.querySelectorAll('[data-licznik="' + nazwa + '"]').forEach(function (e) { e.textContent = v == null ? '–' : v.toLocaleString('pl-PL'); }); }
   window.LICZNIK = { NS: NS, API: API, dzien: dzien, hit: hit };
 
+  function get(k) { return fetch(API + '/get/' + NS + '/' + k).then(function (r) { return r.json(); }).then(function (j) { return j.value || 0; }).catch(function () { return null; }); }
   var strona = document.documentElement.getAttribute('data-strona') || 'start';
-  if (/[?&]nieliczmnie\b/.test(location.search)) ls('dr_nie_licz', '1');   // autor może wyłączyć liczenie siebie
-  if (ls('dr_nie_licz') === '1') return;
+  // autor: ?nieliczmnie – ta przeglądarka przestaje być liczona (zapamiętane), ?liczmnie – cofa
+  if (/[?&]nieliczmnie\b/.test(location.search)) ls('dr_nie_licz', '1');
+  if (/[?&]liczmnie\b/.test(location.search)) ls('dr_nie_licz', '0');
   var dzis = dzien();
+  if (ls('dr_nie_licz') === '1') {          // tylko odczyt, bez zliczania
+    if (strona === 'start') {
+      get('wyswietlenia').then(function (v) { pokaz('razem', v); });
+      get('d-' + dzis).then(function (v) { pokaz('dzis', v); });
+      document.querySelectorAll('.licznik').forEach(function (e) { e.insertAdjacentHTML('beforeend', ' · <i>Twoje wejścia nie są liczone</i>'); });
+    }
+    return;
+  }
   if (strona === 'start') {
     hit('wyswietlenia').then(function (v) { pokaz('razem', v); });
     hit('d-' + dzis).then(function (v) { pokaz('dzis', v); });
