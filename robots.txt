@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mrowkazq-rgb.github.io/dyzurny-ruchu/sitemap.xml

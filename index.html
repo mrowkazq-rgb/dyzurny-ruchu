@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Dyżurny Ruchu Szczecin Główny – symulator nastawni i gra kolejowa</title>
+<meta name="description" content="Darmowa gra kolejowa: zostań dyżurnym ruchu na stacji Szczecin Główny. Prawdziwy rozkład PKP PLK, semafory, zapowiadanie pociągów, peron w 3D z siecią trakcyjną i modelami lokomotyw ze zdjęć. Graj w przeglądarce lub na Windows.">
+<meta name="keywords" content="dyżurny ruchu, gra kolejowa, symulator kolei, symulator nastawni, Szczecin Główny, PKP, rozkład jazdy, semafory, EP07, EP09, Intercity, pociągi, gra o pociągach, symulator dyżurnego ruchu, darmowa gra przeglądarkowa">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#0b1f4d">
+<link rel="canonical" href="https://mrowkazq-rgb.github.io/dyzurny-ruchu/">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pl_PL">
+<meta property="og:site_name" content="Dyżurny Ruchu Szczecin Główny">
+<meta property="og:title" content="Dyżurny Ruchu Szczecin Główny – symulator nastawni i gra kolejowa">
+<meta property="og:description" content="Darmowa gra kolejowa: zostań dyżurnym ruchu na stacji Szczecin Główny. Prawdziwy rozkład PKP PLK, semafory, zapowiadanie pociągów, peron w 3D z siecią trakcyjną i modelami lokomotyw ze zdjęć. Graj w przeglądarce lub na Windows.">
+<meta property="og:url" content="https://mrowkazq-rgb.github.io/dyzurny-ruchu/">
+<meta property="og:image" content="https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lokomotywa EP07 przy peronie w widoku 3D gry">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dyżurny Ruchu Szczecin Główny – symulator nastawni i gra kolejowa">
+<meta name="twitter:description" content="Darmowa gra kolejowa: zostań dyżurnym ruchu na stacji Szczecin Główny. Prawdziwy rozkład PKP PLK, semafory, zapowiadanie pociągów, peron w 3D z siecią trakcyjną i modelami lokomotyw ze zdjęć. Graj w przeglądarce lub na Windows.">
+<meta name="twitter:image" content="https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/og.jpg">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoGame", "name": "Dyżurny Ruchu Szczecin Główny", "description": "Darmowa gra kolejowa: zostań dyżurnym ruchu na stacji Szczecin Główny. Prawdziwy rozkład PKP PLK, semafory, zapowiadanie pociągów, peron w 3D z siecią trakcyjną i modelami lokomotyw ze zdjęć. Graj w przeglądarce lub na Windows.", "url": "https://mrowkazq-rgb.github.io/dyzurny-ruchu/", "image": "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/og.jpg", "inLanguage": "pl", "genre": ["Symulator", "Gra kolejowa", "Strategia"], "gamePlatform": ["Przeglądarka internetowa", "Windows"], "applicationCategory": "Game", "operatingSystem": "Windows, przeglądarka", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "PLN"}, "screenshot": ["https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/mapa.jpg", "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/p3d_ep07.jpg", "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/p3d_spacer.jpg"]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>html{scroll-behavior:smooth}
+/* Układ: jedna kolumna jak hol dworca – tablica odjazdów na otwarcie, potem sekcje w rytmie peronów (tekst | obraz). */
+:root{
+  --bg:#f3f4f1; --surface:#ffffff; --ink:#14203a; --muted:#56627a; --line:#d6dbe3;
+  --board:#0b1f4d; --board-2:#0f2a63; --board-ink:#f4f7ff; --board-dim:#9db0d8;
+  --accent:#e0a800; --accent-ink:#14203a; --signal-red:#d93a2b; --signal-green:#22a35a;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:Barlow,"Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",Consolas,monospace;
+  --radius:6px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#070d1b; --surface:#0d1730; --ink:#e6ecf8; --muted:#97a6c4; --line:#1e2b4a;
+  --board:#0b1f4d; --board-2:#10295f; --board-ink:#f4f7ff; --board-dim:#9db0d8;
+  --accent:#ffd400; --accent-ink:#0b1f4d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#070d1b; --surface:#0d1730; --ink:#e6ecf8; --muted:#97a6c4; --line:#1e2b4a;
+  --board:#0b1f4d; --board-2:#10295f; --board-ink:#f4f7ff; --board-dim:#9db0d8;
+  --accent:#ffd400; --accent-ink:#0b1f4d; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--body);margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px;padding-block:0}
+h1,h2,h3{font-family:var(--display);line-height:1.05;text-wrap:balance;margin:0}
+h2{font-size:clamp(30px,4.2vw,44px);font-weight:700;letter-spacing:.01em}
+h3{font-size:22px;font-weight:600}
+p{margin:0;max-width:65ch}
+a{color:inherit}
+.eyebrow{font:600 13px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+
+/* nagłówek */
+.top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-block:18px;border-bottom:1px solid var(--line)}
+.top .name{font:800 22px/1 var(--display);letter-spacing:.02em}
+.top .name span{color:var(--muted);font-weight:600}
+.top nav{display:flex;gap:18px;flex-wrap:wrap;margin-left:auto;font:600 15px/1 var(--display);letter-spacing:.04em;text-transform:uppercase}
+.top nav a{text-decoration:none;color:var(--muted)}
+.top nav a:hover{color:var(--ink)}
+
+/* otwarcie */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:44px;align-items:center;padding-block:56px 40px}
+.hero h1{font-size:clamp(46px,7vw,88px);font-weight:800;letter-spacing:-.005em}
+.hero h1 small{display:block;font-size:.42em;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:10px}
+.hero .lead{font-size:18.5px;margin-top:22px;color:var(--ink)}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 20px;border-radius:var(--radius);font:700 17px/1 var(--display);letter-spacing:.05em;text-transform:uppercase;text-decoration:none;border:2px solid var(--ink)}
+.btn.main{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn .lamp{width:10px;height:10px;border-radius:50%;background:var(--signal-green);box-shadow:0 0 0 3px color-mix(in srgb,var(--signal-green) 30%,transparent)}
+
+/* tablica odjazdów */
+.board{background:var(--board);color:var(--board-ink);border-radius:var(--radius);overflow:hidden;box-shadow:0 18px 40px -22px rgba(5,12,30,.6);min-width:0}
+.board header{display:flex;align-items:baseline;gap:12px;padding:16px 20px 10px;background:var(--board-2)}
+.board header b{font:700 30px/1 var(--display)}
+.board header i{font:500 18px/1 var(--display);color:var(--board-dim);font-style:normal}
+.board header time{margin-left:auto;font:700 30px/1 var(--display);font-variant-numeric:tabular-nums}
+.board .cols,.board .row{display:grid;grid-template-columns:62px minmax(0,1fr) 92px 64px;gap:12px;padding:0 20px;align-items:center}
+.board .cols{font:600 11px/1 var(--mono);letter-spacing:.1em;color:var(--board-dim);padding-block:8px;border-bottom:1px solid rgba(255,255,255,.12)}
+.board .row{padding-block:11px;border-bottom:1px solid rgba(255,255,255,.08)}
+.board .row:last-child{border-bottom:0}
+.board .t{font:700 24px/1 var(--display);font-variant-numeric:tabular-nums}
+.board .d{min-width:0}
+.board .d b{display:block;font:700 21px/1.1 var(--display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.board .d small{display:block;font:500 13px/1.3 var(--body);color:var(--board-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.board .d em{display:block;font:600 13px/1.3 var(--body);font-style:normal;color:#ffd400}
+.board .tr{font:600 13px/1.2 var(--body)}
+.board .tr span{display:inline-block;font:700 10.5px/1 var(--mono);padding:3px 5px;border-radius:2px;background:#fff;color:#0b1f4d;margin-bottom:3px}
+.board .tr span.pr{background:#c8102e;color:#fff}
+.board .pt{display:flex;gap:4px;justify-content:flex-end}
+.board .pt b{display:inline-grid;place-items:center;width:27px;height:27px;background:#f4f7ff;color:#0b1f4d;border-radius:3px;font:700 17px/1 var(--display)}
+
+/* sekcje */
+section{padding-block:64px;border-top:1px solid var(--line)}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:44px;align-items:start}
+.split.rev{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}
+.split > *{min-width:0}
+.intro{display:grid;gap:14px;margin-bottom:34px}
+figure{margin:0;display:grid;gap:10px}
+figure img{width:100%;border-radius:var(--radius);border:1px solid var(--line);display:block}
+figcaption{font:500 13.5px/1.45 var(--body);color:var(--muted)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* mechanika: lista przepisów jak w regulaminie */
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 36px;margin:0;padding:0;list-style:none}
+.rules li{display:grid;grid-template-columns:54px minmax(0,1fr);gap:14px;padding-block:16px;border-top:1px solid var(--line)}
+.rules .sig{font:600 13px/1.2 var(--mono);color:var(--accent-ink);background:var(--accent);border-radius:3px;height:fit-content;padding:5px 0;text-align:center}
+.rules h3{font-size:20px;margin-bottom:4px}
+.rules p{color:var(--muted);font-size:15px}
+
+/* fotogrametria: etapy */
+.steps{display:grid;gap:12px;margin-top:22px}
+.step{display:grid;grid-template-columns:110px minmax(0,1fr);gap:14px;align-items:baseline;padding:12px 0;border-bottom:1px dashed var(--line)}
+.step .k{font:600 13px/1.3 var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.fleet{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.chip{display:inline-flex;align-items:center;gap:8px;font:600 14px/1 var(--body);padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.chip i{width:9px;height:9px;border-radius:50%;background:var(--signal-green)}
+.chip.wip i{background:var(--accent)}
+
+/* sterowanie */
+.keys{width:100%;border-collapse:collapse;font-size:15px}
+.keys th{text-align:left;font:600 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:10px 0;border-bottom:1px solid var(--line)}
+.keys td{padding:10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.keys td:first-child{width:42%;padding-right:16px}
+kbd{font:600 13px/1 var(--mono);padding:4px 7px;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;background:var(--surface);white-space:nowrap}
+.tblwrap{overflow-x:auto}
+
+/* wersje */
+.versions{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.ver{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;display:grid;gap:12px;align-content:start}
+.ver ul{margin:0;padding-left:18px;color:var(--muted);display:grid;gap:4px}
+.ver .tag{font:600 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+footer{border-top:1px solid var(--line);padding-block:30px 46px;color:var(--muted);font-size:14px}
+footer p{max-width:80ch}
+
+@media (max-width:860px){
+  .hero,.split,.split.rev,.versions{grid-template-columns:1fr}
+  .rules{grid-template-columns:1fr}
+  .hero{padding-block:36px 28px;gap:30px}
+}
+@media (max-width:520px){
+  .board .cols,.board .row{grid-template-columns:50px minmax(0,1fr) 58px;padding:0 14px}
+  .board .row{padding-block:10px}.board .cols span:nth-child(3),.board .row .tr{display:none}
+  .pair{grid-template-columns:1fr}
+  .step{grid-template-columns:1fr;gap:2px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body><div class="wrap">
+  <header class="top">
+    <div class="name">Dyżurny Ruchu <span>· Szczecin Główny</span></div>
+    <nav aria-label="Sekcje">
+      <a href="#gra">Gra</a><a href="#peron">Peron 3D</a><a href="#pojazdy">Pojazdy</a><a href="#sterowanie">Sterowanie</a><a href="#wersje">Wersje</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <h1>Dyżurny Ruchu<small>Szczecin Główny · symulator nastawni</small></h1>
+      <p class="lead">Przyjmujesz pociągi od sąsiednich posterunków, ustawiasz przebiegi na semaforach i wyprawiasz składy według prawdziwego rozkładu z plakatów stacyjnych. Doba na stacji z czterema peronami i ośmioma torami, a na każdy peron możesz zejść i zobaczyć wjeżdżający pociąg w 3D.</p>
+      <div class="cta">
+        <a class="btn main" href="gra/"><span class="lamp" aria-hidden="true"></span>Zagraj w przeglądarce</a>
+        <a class="btn" href="#wersje">Pobierz na Windows</a>
+      </div>
+    </div>
+    <div class="board" role="img" aria-label="Przykładowa tablica odjazdów z gry">
+      <header><b>Odjazdy</b><i>Departures</i><time id="zegar">04:12</time></header>
+      <div class="cols"><span>GODZ.</span><span>DO STACJI / PRZEZ</span><span>POCIĄG</span><span style="text-align:right">PERON / TOR</span></div>
+      <div class="row"><span class="t">04:14</span><div class="d"><b>Świnoujście Port</b><small>przez: Szczecin Łasztownia, Szczecin Port Centralny</small></div><div class="tr"><span class="pr">PR</span><br>88700</div><div class="pt"><b>3</b><b>6</b></div></div>
+      <div class="row"><span class="t">04:25</span><div class="d"><b>Przemyśl Główny</b><small>przez: Gryfino, Chojna, Przemyśl Zasanie</small></div><div class="tr"><span>IC</span><br>8318 MEHOFFER</div><div class="pt"><b>1</b><b>3</b></div></div>
+      <div class="row"><span class="t">04:30</span><div class="d"><b>Gryfino</b><small>przez: Szczecin Łasztownia, Szczecin Port Centralny</small></div><div class="tr"><span class="pr">PR</span><br>80500</div><div class="pt"><b>3</b><b>4</b></div></div>
+      <div class="row"><span class="t">05:04</span><div class="d"><b>Choszczno</b><em>Pociąg opóźniony ok. 21 min</em></div><div class="tr"><span class="pr">PR</span><br>80311</div><div class="pt"><b>1</b><b>3</b></div></div>
+      <div class="row"><span class="t">05:11</span><div class="d"><b>Chełm</b><small>przez: Chełm Miasto, Stargard, Szczecin Dąbie</small></div><div class="tr"><span>IC</span><br>28171 UZNAM</div><div class="pt"><b>3</b><b>4</b></div></div>
+    </div>
+  </div>
+
+  <section id="gra">
+    <div class="split">
+      <div class="intro">
+        <span class="eyebrow">Na nastawni</span>
+        <h2>Prawdziwy rozkład, uproszczone rozjazdy</h2>
+        <p>Rozkład gra czyta z plakatów PKP PLK „Przyjazdy” i „Odjazdy” (PDF): godziny, perony, tory i dni kursowania. Jedna doba to od kilkudziesięciu do ponad dwustu pociągów. Układ torów to schemat oparty na stacji, a nie kopia urządzeń sterowania ruchem.</p>
+        <p>Za udaną zmianę dostajesz punkty, a na koniec premię za zadowolenie podróżnych.</p>
+      </div>
+      <figure>
+        <img loading="lazy" decoding="async" src="img/mapa.jpg" alt="Schemat stacji Szczecin Główny w grze z tablicami odjazdów i przyjazdów">
+        <figcaption>Schemat stacji z semaforami, radiem i tablicami. Deszcz, noc, stado dzików w głowicy wschodniej.</figcaption>
+      </figure>
+    </div>
+    <ul class="rules" style="margin-top:40px">
+      <li><span class="sig">TEL</span><div><h3>Zapowiadanie pociągów</h3><p>Szczecin Wstowo, Gumieńce i Port Centralny dzwonią z zapowiedzią. Przyjmujesz pociąg albo każesz mu czekać, gdy szlak jest zajęty.</p></div></li>
+      <li><span class="sig">Rp1</span><div><h3>Odjazd po sygnale „Gotów”</h3><p>Pociąg rusza dopiero, gdy kierownik da gwizdkiem sygnał Rp1 i semafor wskazuje jazdę.</p></div></li>
+      <li><span class="sig">Sz</span><div><h3>Sygnał zastępczy</h3><p>Przy usterce semafora wpuszczasz pociąg na sygnał zastępczy. Jazdę po torze niewłaściwym wolno wyprawić tylko przy awarii rozjazdu i tylko wtedy, gdy nic nie jedzie z przeciwka.</p></div></li>
+      <li><span class="sig">IC</span><div><h3>Grupy postojowe IC</h3><p>Grupy są po obu stronach stacji, więc składy IC nie zmieniają kierunku. Gdy jedna grupa jest zamknięta na kilka godzin, robisz oblot lokomotywy torem odstawczym.</p></div></li>
+      <li><span class="sig">RS</span><div><h3>RADIO-STOP i awarie</h3><p>Dziki na torze, brak napięcia przy peronie, usterki lokomotyw i zespołów trakcyjnych. Każde zdarzenie trzeba obsłużyć, zanim zablokuje ruch.</p></div></li>
+      <li><span class="sig">EOR</span><div><h3>Pogoda i pora dnia</h3><p>Deszcz, mgła, śnieg i burza spowalniają ruch. Zimą włączasz elektryczne ogrzewanie rozjazdów. Noc przychodzi o 22:00.</p></div></li>
+      <li><span class="sig">%</span><div><h3>Podróżni</h3><p>Tłumy na peronach, przesiadki zgłaszane przez kierowników pociągów i zmiana toru w ostatniej chwili. Zadowolenie podróżnych wpływa na wynik.</p></div></li>
+      <li><span class="sig">SCN</span><div><h3>Scenariusze</h3><p>Zwykły dzień, wakacyjne pociągi nad morze, burza, zima i trening dla początkujących. Pasek na dole podaje sprawdzone ciekawostki o Szczecinie.</p></div></li>
+    </ul>
+  </section>
+
+  <section id="peron">
+    <div class="intro">
+      <span class="eyebrow">Widok z peronu</span>
+      <h2>Zejdź na peron i patrz, jak wjeżdża</h2>
+      <p>Kliknij peron na schemacie, a potem przycisk 3D. Kamera sama śledzi wjeżdżający pociąg, ale możesz też przejść się po peronie: pod wiatą, wzdłuż linii bezpieczeństwa, między podróżnymi. Nad torami wisi sieć trakcyjna ze słupami co 55 m i przewodem jezdnym 5,6 m nad główką szyny. Tablice peronowe pokazują najbliższe odjazdy z gry, a pora dnia i pogoda zmieniają światło.</p>
+    </div>
+    <div class="pair">
+      <figure><img loading="lazy" decoding="async" src="img/p3d_ep07.jpg" alt="Lokomotywa EP07 przy peronie w widoku 3D"><figcaption>EP07-1017 z fotogrametrii przy peronie II, za nią wagony IC.</figcaption></figure>
+      <figure><img loading="lazy" decoding="async" src="img/p3d_spacer.jpg" alt="Spacer po peronie w 3D z siecią trakcyjną nad torami"><figcaption>Spacer po peronie: wiata, sieć trakcyjna i Impuls na sąsiednim torze.</figcaption></figure>
+    </div>
+  </section>
+
+  <section id="pojazdy">
+    <div class="split rev">
+      <figure><img loading="lazy" decoding="async" src="img/skan.jpg" alt="Model 3D lokomotywy EP07 zbudowany ze zdjęć"><figcaption>Model EP07 złożony z 236 zdjęć. Bok od strony peronu pochodzi ze skanu, gładkie srebrne pudło uzupełnia zdjęcie boku.</figcaption></figure>
+      <div>
+        <div class="intro">
+          <span class="eyebrow">Pojazdy ze zdjęć</span>
+          <h2>Lokomotywy i wagony sfotografowane na stacji</h2>
+          <p>Modele 3D powstają metodą fotogrametrii: kilkaset zdjęć jednego pojazdu, zrobionych z peronu i zza torów, składa się w siatkę z teksturą. Potem skrypt sam wycina pojazd ze skanu całego peronu, skaluje go do prawdziwej długości i robi z niego miniaturę do gry.</p>
+        </div>
+        <div class="steps">
+          <div class="step"><span class="k">Zdjęcia</span><span>150 najostrzejszych ujęć z zewnątrz, równo rozłożonych wokół pojazdu</span></div>
+          <div class="step"><span class="k">Meshroom</span><span>położenia aparatu, mapy głębi na karcie graficznej, siatka i tekstura</span></div>
+          <div class="step"><span class="k">Blender</span><span>wycięcie pojazdu, skala z długości ze zderzakami, uzupełnienie dziur, model do gry</span></div>
+        </div>
+        <div class="fleet" aria-label="Stan modeli">
+          <span class="chip"><i></i>EP07 – gotowa</span>
+          <span class="chip wip"><i></i>EP09 – w obróbce</span>
+          <span class="chip wip"><i></i>Wagon 1/2 kl.</span>
+          <span class="chip wip"><i></i>Wagon COMBO</span>
+          <span class="chip wip"><i></i>Wagon 2 kl.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sterowanie">
+    <div class="split">
+      <div class="intro">
+        <span class="eyebrow">Sterowanie</span>
+        <h2>Klawisze</h2>
+        <p>Większość pracy to klikanie semaforów na schemacie i wybór przebiegu z listy. Klawiatura przyspiesza resztę.</p>
+      </div>
+      <div class="tblwrap">
+        <table class="keys">
+          <thead><tr><th>Klawisz</th><th>Działanie</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>Spacja</kbd></td><td>pauza / wznowienie</td></tr>
+            <tr><td><kbd>0</kbd> <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> <kbd>4</kbd></td><td>tempo gry: ½×, 1×, 2×, 4×, 8×</td></tr>
+            <tr><td><kbd>T</kbd></td><td>odbierz telefon z zapowiedzią pociągu</td></tr>
+            <tr><td><kbd>Esc</kbd></td><td>zamknij okno peronu lub menu</td></tr>
+            <tr><td><kbd>W</kbd> <kbd>S</kbd> <kbd>A</kbd> <kbd>D</kbd> / strzałki</td><td>peron 3D: chodzenie</td></tr>
+            <tr><td><kbd>Q</kbd> <kbd>E</kbd> · <kbd>Shift</kbd></td><td>peron 3D: obrót, bieg</td></tr>
+            <tr><td>przeciąganie myszą · kółko</td><td>peron 3D: rozglądanie się, przejście wzdłuż peronu</td></tr>
+            <tr><td><kbd>F11</kbd></td><td>pełny ekran (wersja na Windows)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="wersje">
+    <div class="intro">
+      <span class="eyebrow">Wersje</span>
+      <h2>W przeglądarce albo na Windows</h2>
+    </div>
+    <div class="versions">
+      <div class="ver">
+        <span class="tag">Przeglądarka</span>
+        <h3>Gra online</h3>
+        <ul>
+          <li>Działa od razu, bez instalacji.</li>
+          <li>Widok peronu w 2D i 3D. W 3D pojazdy są bryłami z naklejonymi zdjęciami.</li>
+          <li>Widok 3D pobiera bibliotekę graficzną, więc wymaga internetu.</li>
+          <li>Zapis gry zostaje w tej przeglądarce.</li>
+        </ul>
+        <div><a class="btn main" href="gra/">Zagraj teraz</a></div>
+      </div>
+      <div class="ver">
+        <span class="tag">Windows · DyzurnyRuchu.exe</span>
+        <h3>Wersja z modelami 3D</h3>
+        <ul>
+          <li>Archiwum ZIP: plik EXE i folder <code>modele</code> z pojazdami ze zdjęć.</li>
+          <li>Działa bez internetu, także rozkład z plakatów PDF.</li>
+          <li>Nowy model wystarczy wrzucić do folderu, bez instalacji gry od nowa.</li>
+          <li>Plik nie ma podpisu cyfrowego. Przy pierwszym uruchomieniu wybierz „Więcej informacji” → „Uruchom mimo to”.</li>
+        </ul>
+        <p style="color:var(--muted);font-size:14.5px">Rozpakuj ZIP i uruchom DyzurnyRuchu.exe (folder <code>modele</code> musi zostać obok).</p><div><a class="btn main" href="https://github.com/mrowkazq-rgb/dyzurny-ruchu/releases/latest">Pobierz dla Windows (ZIP)</a></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>Dyżurny Ruchu Szczecin Główny to gra fanowska. Nie jest związana z PKP Polskimi Liniami Kolejowymi, PKP Intercity ani Polregio. Rozkład pochodzi z publicznych plakatów stacyjnych, układ torów jest uproszczony, a składy wagonów są orientacyjne.</p>
+  </div>
+</footer>
+
+<script>
+// zegar tablicy: bieżący czas, jak na prawdziwym wyświetlaczu
+(function(){const el=document.getElementById('zegar');if(!el)return;
+  const tick=()=>{const d=new Date();el.textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');};
+  tick();setInterval(tick,15000);})();
+</script>
+
+</body>
+</html>
