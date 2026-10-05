@@ -175,7 +175,7 @@ footer p{max-width:80ch}
   <header class="top">
     <div class="name">Dyżurny Ruchu <span>· Szczecin Główny</span></div><a class="autor" href="#autor" title="Autor gry: mrowkazq"><span>gra od</span><img src="img/mrowkazq-logo.svg" alt="mrowkazq" width="124" height="24"></a>
     <nav aria-label="Sekcje">
-      <a href="#gra">Gra</a><a href="#peron">Peron 3D</a><a href="#pojazdy">Pojazdy</a><a href="#sterowanie">Sterowanie</a><a href="#wersje">Wersje</a>
+      <a href="#gra">Gra</a><a href="#peron">Peron 3D</a><a href="#pojazdy">Pojazdy</a><a href="#ranking">Ranking</a><a href="#sterowanie">Sterowanie</a><a href="#wersje">Wersje</a>
     </nav>
   </header>
 
@@ -265,6 +265,20 @@ footer p{max-width:80ch}
     </div>
   </section>
 
+  <section id="ranking" hidden>
+    <div class="intro">
+      <span class="eyebrow">Ranking online</span>
+      <h2>Najlepsi dyżurni</h2>
+      <p>Wyniki wysłane przez graczy po skończonej zmianie. Wynik wysyłasz z ekranu końca zmiany w grze.</p>
+    </div>
+    <div class="tblwrap">
+      <table class="keys rank-tab">
+        <thead><tr><th>#</th><th>Gracz</th><th>Punkty</th><th>Zadowolenie</th><th>Data</th></tr></thead>
+        <tbody id="rankWiersze"><tr><td colspan="5">Wczytywanie…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
   <section id="sterowanie">
     <div class="split">
       <div class="intro">
@@ -337,6 +351,6 @@ footer p{max-width:80ch}
   tick();setInterval(tick,15000);})();
 </script>
 
-<script>(function(){var u="mrowkazq",d="gmail.com",a=document.getElementById("mail");if(a){a.href="mailto:"+u+"@"+d;a.textContent=u+"@"+d;}})();</script><script src="licznik.js" defer></script>
+<script>(function(){var u="mrowkazq",d="gmail.com",a=document.getElementById("mail");if(a){a.href="mailto:"+u+"@"+d;a.textContent=u+"@"+d;}})();</script><script src="licznik.js" defer></script><script>(function(){var R={"url": "https://qrlygdgcnzfpneorotfn.supabase.co", "key": "sb_publishable_pGFoGQZ-sWAz3RvQuX-teg_2RvnFjez"},w="demo",s=document.getElementById("ranking"),tb=document.getElementById("rankWiersze");if(!s||!tb)return;s.hidden=false;var e=function(x){return String(x).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});};fetch(R.url+"/rest/v1/wyniki?select=nick,wynik,zadowolenie,utworzono&zmiana=eq.poranek&wersja=eq."+w+"&order=wynik.desc&limit=10",{headers:{apikey:R.key,Authorization:"Bearer "+R.key}}).then(function(r){return r.json();}).then(function(l){tb.innerHTML=l.length?l.map(function(x,i){return "<tr><td>"+(i+1)+"</td><td>"+e(x.nick)+"</td><td>"+x.wynik+"</td><td>"+x.zadowolenie+"%</td><td>"+new Date(x.utworzono).toLocaleDateString("pl-PL")+"</td></tr>";}).join(""):"<tr><td colspan=\"5\">Jeszcze nikt nie wysłał wyniku – zagraj w demo i bądź pierwszy.</td></tr>";}).catch(function(){tb.innerHTML="<tr><td colspan=\"5\">Ranking chwilowo niedostępny.</td></tr>";});})();</script>
 </body>
 </html>
