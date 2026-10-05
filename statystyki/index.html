@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pl" data-strona="statystyki">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Statystyki odwiedzin – Dyżurny Ruchu Szczecin Główny</title>
+<meta name="description" content="Statystyki odwiedzin strony gry Dyżurny Ruchu Szczecin Główny i wersji demo.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Układ: tablica wyników jak pulpit dyżurnego – kafelki z licznikami, pod nimi przebieg dni i tabela. */
+:root{--bg:#f3f4f1;--surface:#fff;--ink:#14203a;--muted:#56627a;--line:#d6dbe3;--bar:#1d4f9e;--bar-hi:#0b1f4d;--accent:#e0a800;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;--body:Barlow,"Segoe UI",system-ui,sans-serif;--mono:"IBM Plex Mono",Consolas,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070d1b;--surface:#0d1730;--ink:#e6ecf8;--muted:#97a6c4;--line:#1e2b4a;--bar:#e0b400;--bar-hi:#ffd400;--accent:#ffd400;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#070d1b;--surface:#0d1730;--ink:#e6ecf8;--muted:#97a6c4;--line:#1e2b4a;--bar:#e0b400;--bar-hi:#ffd400;--accent:#ffd400;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--body)}
+.wrap{max-width:1000px;margin:0 auto;padding-inline:20px;padding-block:24px 48px}
+header{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-bottom:18px;border-bottom:1px solid var(--line)}
+header a{color:var(--muted);font:600 15px/1 var(--display);letter-spacing:.05em;text-transform:uppercase;text-decoration:none}
+header img{height:30px;width:auto;margin-left:auto}
+h1{font:800 clamp(34px,5vw,48px)/1.05 var(--display);margin:28px 0 6px;text-wrap:balance}
+.sub{color:var(--muted);margin:0 0 26px;max-width:65ch}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;display:grid;gap:6px;min-width:0}
+.tile .k{font:600 12px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tile .v{font:800 38px/1 var(--display);font-variant-numeric:tabular-nums}
+.tile .o{font-size:13.5px;color:var(--muted)}
+h2{font:700 26px/1.1 var(--display);margin:40px 0 4px}
+.chartbox{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 16px 8px;margin-top:12px;position:relative}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.ax{fill:var(--muted);font:500 11px var(--mono)}
+.grid{stroke:var(--line);stroke-width:1}
+.bar{fill:var(--bar)}.bar:hover,.bar.on{fill:var(--bar-hi)}
+.hit{fill:transparent;cursor:pointer}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font:500 13px/1.35 var(--body);padding:7px 9px;border-radius:5px;white-space:nowrap;transform:translate(-50%,-100%);opacity:0;transition:opacity .1s}
+.tip b{font:700 15px var(--display)}
+details{margin-top:14px}summary{cursor:pointer;color:var(--muted);font-weight:600}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14.5px;margin-top:8px}
+th,td{text-align:right;padding:7px 10px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}th:first-child,td:first-child{text-align:left}
+th{font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.state{color:var(--muted);font-size:14px;margin-top:10px}
+.note{margin-top:34px;color:var(--muted);font-size:14px;max-width:70ch}
+@media (max-width:760px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (prefers-reduced-motion:reduce){.tip{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><a href="../">← Strona gry</a><img src="../img/mrowkazq-logo.svg" alt="mrowkazq" width="155" height="30"></header>
+  <h1>Statystyki odwiedzin</h1>
+  <p class="sub">Liczniki strony gry Dyżurny Ruchu Szczecin Główny i wersji demo. Bez ciasteczek i bez danych osobowych: zliczane są tylko wejścia.</p>
+  <div class="tiles">
+    <div class="tile"><span class="k">Wyświetlenia</span><span class="v" id="t-wys">–</span><span class="o">strony głównej, łącznie</span></div>
+    <div class="tile"><span class="k">Odwiedzający</span><span class="v" id="t-uni">–</span><span class="o">unikalne przeglądarki</span></div>
+    <div class="tile"><span class="k">Zagrane demo</span><span class="v" id="t-start">–</span><span class="o"><span id="t-wej">–</span> wejść do gry</span></div>
+    <div class="tile"><span class="k">Ukończone demo</span><span class="v" id="t-kon">–</span><span class="o">zmiana dograna do 9:00</span></div>
+  </div>
+  <h2>Ostatnie 14 dni</h2>
+  <p class="sub" style="margin:0">Wyświetlenia strony głównej dzień po dniu. Najedź na słupek, aby zobaczyć liczby.</p>
+  <div class="chartbox" id="box"><svg id="ch" viewBox="0 0 900 260" role="img" aria-label="Wykres wyświetleń z ostatnich 14 dni"></svg><div class="tip" id="tip"></div></div>
+  <div class="state" id="stan">Wczytywanie liczników…</div>
+  <details><summary>Tabela z liczbami</summary><div class="tw"><table id="tab"><thead><tr><th>Dzień</th><th>Wyświetlenia</th><th>Odwiedzający</th></tr></thead><tbody></tbody></table></div></details>
+  <h2>Urządzenia</h2>
+  <p class="sub" style="margin:0">Komputer: <b id="t-pc">–</b> · telefon lub tablet: <b id="t-tel">–</b> (pierwsze wejście danej przeglądarki).</p>
+  <p class="note">Liczniki prowadzi bezpłatna usługa Abacus. Wejścia autora można wyłączyć z liczenia, otwierając stronę z dopiskiem <code>?nieliczmnie</code> w adresie (zapamiętuje to przeglądarka).</p>
+</div>
+<script>
+(function(){
+  var NS='mrowkazq-dyzurny-ruchu',API='https://abacus.jasoncameron.dev';
+  function dz(d){return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');}
+  var kolejka=Promise.resolve();
+  function get(k){ // po kolei z odstępem – usługa przyjmuje 30 zapytań / 10 s
+    var p=kolejka.then(function(){return fetch(API+'/get/'+NS+'/'+k).then(function(r){return r.json();}).then(function(j){return j.value||0;}).catch(function(){return 0;});});
+    kolejka=p.then(function(){return new Promise(function(ok){setTimeout(ok,380);});});return p;}
+  var f=function(v){return Number(v).toLocaleString('pl-PL');};
+  [['wyswietlenia','t-wys'],['unikalni','t-uni'],['demo-start','t-start'],['demo-wejscia','t-wej'],['demo-koniec','t-kon'],['pc','t-pc'],['tel','t-tel']].forEach(function(q){get(q[0]).then(function(v){document.getElementById(q[1]).textContent=f(v);});});
+  var dni=[],t=new Date();for(var i=13;i>=0;i--){var d=new Date(t);d.setDate(t.getDate()-i);dni.push(d);}
+  Promise.all(dni.map(function(d){return Promise.all([get('d-'+dz(d)),get('u-'+dz(d))]);})).then(function(w){
+    rysuj(dni.map(function(d,i){return {d:d,w:w[i][0],u:w[i][1]};}));document.getElementById('stan').textContent='Stan na '+new Date().toLocaleString('pl-PL',{dateStyle:'medium',timeStyle:'short'})+'.';});
+  function rysuj(D){
+    var svg=document.getElementById('ch'),W=900,H=260,L=44,R=8,T=14,B=34,mx=Math.max(4,Math.max.apply(null,D.map(function(x){return x.w;})));
+    var step=Math.pow(10,Math.floor(Math.log10(mx)));var tk=[1,2,5,10].map(function(m){return m*step;}).find(function(s){return mx/s<=5;});var top=Math.ceil(mx/tk)*tk;
+    var y=function(v){return T+(H-T-B)*(1-v/top);},bw=(W-L-R)/D.length,h='';
+    for(var v=0;v<=top;v+=tk)h+='<line class="grid" x1="'+L+'" x2="'+(W-R)+'" y1="'+y(v)+'" y2="'+y(v)+'"/><text class="ax" x="'+(L-8)+'" y="'+(y(v)+4)+'" text-anchor="end">'+f(v)+'</text>';
+    D.forEach(function(x,i){var x0=L+i*bw+3,w=bw-6,y0=y(x.w),hh=Math.max(0,y(0)-y0),r=Math.min(4,w/2,hh);
+      // słupek z zaokrągloną tylko górą, oparty na osi
+      h+= hh>0?'<path class="bar" data-i="'+i+'" d="M'+x0+','+y(0)+'V'+(y0+r)+'Q'+x0+','+y0+' '+(x0+r)+','+y0+'H'+(x0+w-r)+'Q'+(x0+w)+','+y0+' '+(x0+w)+','+(y0+r)+'V'+y(0)+'Z"/>':'';
+      if(i%2===D.length%2||D.length<9)h+='<text class="ax" x="'+(x0+w/2)+'" y="'+(H-12)+'" text-anchor="middle">'+x.d.getDate()+'.'+String(x.d.getMonth()+1).padStart(2,'0')+'</text>';
+      h+='<rect class="hit" data-i="'+i+'" x="'+(L+i*bw)+'" y="'+T+'" width="'+bw+'" height="'+(H-T-B)+'"/>';});
+    svg.innerHTML=h;
+    var tip=document.getElementById('tip'),box=document.getElementById('box');
+    svg.querySelectorAll('.hit').forEach(function(el){el.addEventListener('mouseenter',function(){var i=+el.dataset.i,x=D[i],r=svg.getBoundingClientRect(),k=r.width/W,b=box.getBoundingClientRect();
+      svg.querySelectorAll('.bar').forEach(function(p){p.classList.toggle('on',+p.dataset.i===i);});
+      tip.innerHTML='<b>'+x.d.toLocaleDateString('pl-PL',{weekday:'short',day:'numeric',month:'long'})+'</b><br>'+f(x.w)+' wyświetleń · '+f(x.u)+' odwiedzających';
+      tip.style.left=(r.left-b.left+(L+i*bw+bw/2)*k)+'px';tip.style.top=(r.top-b.top+y(x.w)*k-8)+'px';tip.style.opacity=1;});
+      el.addEventListener('mouseleave',function(){tip.style.opacity=0;svg.querySelectorAll('.bar').forEach(function(p){p.classList.remove('on');});});});
+    document.querySelector('#tab tbody').innerHTML=D.slice().reverse().map(function(x){return '<tr><td>'+x.d.toLocaleDateString('pl-PL')+'</td><td>'+f(x.w)+'</td><td>'+f(x.u)+'</td></tr>';}).join('');
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pl">
+<html lang="pl" data-strona="start">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -25,7 +25,7 @@
 <meta name="twitter:title" content="Dyżurny Ruchu Szczecin Główny – symulator nastawni i gra kolejowa">
 <meta name="twitter:description" content="Darmowa gra kolejowa: zostań dyżurnym ruchu na stacji Szczecin Główny. Prawdziwy rozkład PKP PLK, semafory, zapowiadanie pociągów, peron w 3D z siecią trakcyjną i modelami lokomotyw ze zdjęć. Graj w przeglądarce lub na Windows.">
 <meta name="twitter:image" content="https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/og.jpg">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoGame", "name": "Dyżurny Ruchu Szczecin Główny", "description": "Darmowa gra kolejowa: zostań dyżurnym ruchu na stacji Szczecin Główny. Prawdziwy rozkład PKP PLK, semafory, zapowiadanie pociągów, peron w 3D z siecią trakcyjną i modelami lokomotyw ze zdjęć. Graj w przeglądarce lub na Windows. Gra w przygotowaniu – dostępna wkrótce.", "url": "https://mrowkazq-rgb.github.io/dyzurny-ruchu/", "image": "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/og.jpg", "inLanguage": "pl", "genre": ["Symulator", "Gra kolejowa", "Strategia"], "gamePlatform": ["Przeglądarka internetowa", "Windows"], "applicationCategory": "Game", "operatingSystem": "Windows, przeglądarka", "isAccessibleForFree": true, "screenshot": ["https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/mapa.jpg", "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/p3d_ep07.jpg", "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/p3d_spacer.jpg"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoGame", "name": "Dyżurny Ruchu Szczecin Główny", "description": "Darmowa gra kolejowa: zostań dyżurnym ruchu na stacji Szczecin Główny. Prawdziwy rozkład PKP PLK, semafory, zapowiadanie pociągów, peron w 3D z siecią trakcyjną i modelami lokomotyw ze zdjęć. Graj w przeglądarce lub na Windows.", "url": "https://mrowkazq-rgb.github.io/dyzurny-ruchu/", "image": "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/og.jpg", "inLanguage": "pl", "genre": ["Symulator", "Gra kolejowa", "Strategia"], "gamePlatform": ["Przeglądarka internetowa", "Windows"], "applicationCategory": "Game", "operatingSystem": "Windows, przeglądarka", "isAccessibleForFree": true, "screenshot": ["https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/mapa.jpg", "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/p3d_ep07.jpg", "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/p3d_spacer.jpg"]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
@@ -166,6 +166,9 @@ footer p{max-width:80ch}
 @keyframes migaj{50%{opacity:.25}}
 .btn[aria-disabled="true"]{opacity:.55;cursor:not-allowed;border-style:dashed}
 .btn[aria-disabled="true"] .lamp{background:var(--signal-red);box-shadow:none}
+.prawa{font-size:13px;margin-top:10px}
+.licznik{margin-top:10px;font:500 14px/1.4 var(--mono)}
+.licznik a,#mail{color:var(--ink)}
 </style>
 </head>
 <body><div class="wrap">
@@ -182,10 +185,10 @@ footer p{max-width:80ch}
       <p class="lead">Przyjmujesz pociągi od sąsiednich posterunków, ustawiasz przebiegi na semaforach i wyprawiasz składy według prawdziwego rozkładu z plakatów stacyjnych. Doba na stacji z czterema peronami i ośmioma torami, a na każdy peron możesz zejść i zobaczyć wjeżdżający pociąg w 3D.</p>
       <div class="soon" role="status">
         <span class="badge"><i aria-hidden="true"></i>W budowie</span>
-        <p>Gra dopiero powstaje. Wersja w przeglądarce i wersja na Windows będą dostępne wkrótce. Na razie możesz zobaczyć, jak wygląda i nad czym trwają prace.</p>
+        <p>""" + ("Gra dopiero powstaje. Możesz już zagrać w <b>demo</b>: poranna zmiana na nastawni od 7:00 do 9:00 czasu gry, w przeglądarce. Pełna gra i wersja na Windows będą dostępne wkrótce." if DEMO else "Gra dopiero powstaje. Wersja w przeglądarce i wersja na Windows będą dostępne wkrótce. Na razie możesz zobaczyć, jak wygląda i nad czym trwają prace.") + """</p>
       </div>
       <div class="cta">
-        <span class="btn main" aria-disabled="true"><span class="lamp" aria-hidden="true"></span>Zagraj – wkrótce</span>
+        """ + ('<a class="btn main" href="gra/"><span class="lamp" aria-hidden="true"></span>Zagraj w demo (7:00–9:00)</a>' if DEMO else '<span class="btn main" aria-disabled="true"><span class="lamp" aria-hidden="true"></span>Zagraj – wkrótce</span>') + """
         <span class="btn" aria-disabled="true">Pobieranie – wkrótce</span>
       </div>
     </div>
@@ -291,19 +294,19 @@ footer p{max-width:80ch}
     <div class="intro">
       <span class="eyebrow">Wersje</span>
       <h2>W przeglądarce albo na Windows</h2>
-      <p>Obie wersje są w przygotowaniu i pojawią się tu wkrótce.</p>
+      <p>Demo w przeglądarce jest już dostępne. Pełna gra i wersja na Windows pojawią się wkrótce.</p>
     </div>
     <div class="versions">
       <div class="ver">
         <span class="tag">Przeglądarka</span>
-        <h3>Gra online</h3>
+        <h3>Demo online · 7:00–9:00</h3>
         <ul>
-          <li>Działa od razu, bez instalacji.</li>
+          <li>Demo: poranna zmiana od 7:00 do 9:00 czasu gry, działa od razu, bez instalacji.</li>
           <li>Widok peronu w 2D i 3D. W 3D pojazdy są bryłami z naklejonymi zdjęciami.</li>
           <li>Widok 3D pobiera bibliotekę graficzną, więc wymaga internetu.</li>
           <li>Zapis gry zostaje w tej przeglądarce.</li>
         </ul>
-        <div><span class="btn main" aria-disabled="true">Wkrótce</span></div>
+        <div><a class="btn main" href="gra/">Zagraj w demo</a></div>
       </div>
       <div class="ver">
         <span class="tag">Windows · DyzurnyRuchu.exe</span>
@@ -322,7 +325,7 @@ footer p{max-width:80ch}
 
 <footer id="autor">
   <div class="wrap">
-    <div class="autor-stopka"><img src="img/mrowkazq-logo.svg" alt="mrowkazq – autor gry" width="248" height="48"><p>Grę tworzy <b>mrowkazq</b>: pomysł, zdjęcia pojazdów na stacji Szczecin Główny i testy. © 2026 mrowkazq.</p></div>
+    <div class="autor-stopka"><img src="img/mrowkazq-logo.svg" alt="mrowkazq – autor gry" width="248" height="48"><div><p>Grę tworzy <b>mrowkazq</b>: pomysł, zdjęcia pojazdów na stacji Szczecin Główny i testy.</p><p>Kontakt: <a id="mail" href="#autor">mrowkazq [at] gmail.com</a></p></div></div><p class="prawa">© 2026 mrowkazq. Wszelkie prawa zastrzeżone. Gra, jej kod, grafiki, modele 3D i układ są chronione prawem autorskim; kopiowanie i rozpowszechnianie bez zgody autora jest zabronione.</p><p class="licznik">Odwiedziny: <b data-licznik="razem">–</b> · dziś: <b data-licznik="dzis">–</b> · <a href="statystyki/">statystyki</a></p>
     <p>Dyżurny Ruchu Szczecin Główny to gra fanowska. Nie jest związana z PKP Polskimi Liniami Kolejowymi, PKP Intercity ani Polregio. Rozkład pochodzi z publicznych plakatów stacyjnych, układ torów jest uproszczony, a składy wagonów są orientacyjne.</p>
   </div>
 </footer>
@@ -334,5 +337,6 @@ footer p{max-width:80ch}
   tick();setInterval(tick,15000);})();
 </script>
 
+<script>(function(){var u="mrowkazq",d="gmail.com",a=document.getElementById("mail");if(a){a.href="mailto:"+u+"@"+d;a.textContent=u+"@"+d;}})();</script><script src="licznik.js" defer></script>
 </body>
 </html>
