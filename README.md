@@ -1,6 +1,8 @@
-# Dyżurny Ruchu Szczecin Główny
+# Dyżurny Ruchu Szczecin Główny – gra kolejowa, symulator nastawni
 
-Strona gry: https://mrowkazq-rgb.github.io/dyzurny-ruchu/
+**Zagraj w przeglądarce: https://mrowkazq-rgb.github.io/dyzurny-ruchu/**
+
+Darmowa gra o pracy dyżurnego ruchu na stacji Szczecin Główny: prawdziwy rozkład PKP PLK, semafory, przebiegi, zapowiadanie pociągów telefonem, awarie i pogoda. Działa na komputerze i telefonie.
 
 Gra w przygotowaniu. Autor: **mrowkazq** (mrowkazq@gmail.com).
 

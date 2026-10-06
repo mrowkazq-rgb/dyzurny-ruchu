@@ -26,6 +26,7 @@
 <meta name="twitter:description" content="Darmowa gra kolejowa: zostań dyżurnym ruchu na stacji Szczecin Główny. Prawdziwy rozkład PKP PLK, semafory, zapowiadanie pociągów, peron w 3D z siecią trakcyjną i modelami lokomotyw ze zdjęć. Graj w przeglądarce lub na Windows.">
 <meta name="twitter:image" content="https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/og.jpg">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoGame", "name": "Dyżurny Ruchu Szczecin Główny", "description": "Darmowa gra kolejowa: zostań dyżurnym ruchu na stacji Szczecin Główny. Prawdziwy rozkład PKP PLK, semafory, zapowiadanie pociągów, peron w 3D z siecią trakcyjną i modelami lokomotyw ze zdjęć. Graj w przeglądarce lub na Windows.", "url": "https://mrowkazq-rgb.github.io/dyzurny-ruchu/", "image": "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/og.jpg", "inLanguage": "pl", "genre": ["Symulator", "Gra kolejowa", "Strategia"], "gamePlatform": ["Przeglądarka internetowa", "Windows"], "applicationCategory": "Game", "operatingSystem": "Windows, przeglądarka", "isAccessibleForFree": true, "screenshot": ["https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/mapa.jpg", "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/p3d_ep07.jpg", "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/p3d_spacer.jpg"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Czy gra jest darmowa?", "acceptedAnswer": {"@type": "Answer", "text": "Tak. Demo w przeglądarce jest darmowe i nie wymaga rejestracji ani instalacji – wystarczy kliknąć „Zagraj w demo”."}}, {"@type": "Question", "name": "Na czym mogę zagrać?", "acceptedAnswer": {"@type": "Answer", "text": "W każdej nowoczesnej przeglądarce na komputerze, a także na telefonie i tablecie (sterowanie dotykiem, przybliżanie dwoma palcami). Wersja na Windows z modelami 3D jest w przygotowaniu."}}, {"@type": "Question", "name": "Czy rozkład jazdy jest prawdziwy?", "acceptedAnswer": {"@type": "Answer", "text": "Tak. Gra korzysta z oficjalnych plakatów PKP PLK „Odjazdy” i „Przyjazdy” dla stacji Szczecin Główny – godziny, perony, tory i dni kursowania pociągów PolRegio, Intercity i przewoźników z Niemiec."}}, {"@type": "Question", "name": "Na czym polega praca dyżurnego ruchu w grze?", "acceptedAnswer": {"@type": "Answer", "text": "Przyjmujesz telefoniczne zapowiedzi pociągów od sąsiednich posterunków, ustawiasz przebiegi i semafory wjazdowe i wyjazdowe, wyprawiasz pociągi po sygnale „Gotów” kierownika i reagujesz na awarie rozjazdów, opóźnienia, pogodę i tłumy podróżnych."}}, {"@type": "Question", "name": "Czy to gra związana z PKP lub SimRail?", "acceptedAnswer": {"@type": "Answer", "text": "Nie. To niezależna, niekomercyjna gra fanowska jednego autora (mrowkazq), niezwiązana z PKP PLK, PKP Intercity, PolRegio ani z grą SimRail."}}, {"@type": "Question", "name": "Jak długo trwa zmiana w demo?", "acceptedAnswer": {"@type": "Answer", "text": "Demo to poranna zmiana od 7:00 do 9:00 czasu gry. Tempo można zmieniać od ½× do 8×, a grę zapisać i wrócić do niej później."}}]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
@@ -155,6 +156,8 @@ footer p{max-width:80ch}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
+.faq{display:grid;gap:10px;margin-top:18px}.faq details{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:12px 16px}
+.faq summary{cursor:pointer;font-weight:600;font-size:17px}.faq details[open] summary{color:#ffd400}.faq p{margin:10px 0 2px;color:var(--muted)}
 .autor{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--muted);font:600 13px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}
 .autor img{height:24px;width:auto;display:block}
 .autor-stopka{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-bottom:18px}
@@ -175,7 +178,7 @@ footer p{max-width:80ch}
   <header class="top">
     <div class="name">Dyżurny Ruchu <span>· Szczecin Główny</span></div><a class="autor" href="#autor" title="Autor gry: mrowkazq"><span>gra od</span><img src="img/mrowkazq-logo.svg" alt="mrowkazq" width="124" height="24"></a>
     <nav aria-label="Sekcje">
-      <a href="#gra">Gra</a><a href="#peron">Peron 3D</a><a href="#pojazdy">Pojazdy</a><a href="#ranking">Ranking</a><a href="#sterowanie">Sterowanie</a><a href="#wersje">Wersje</a>
+      <a href="#gra">Gra</a><a href="#peron">Peron 3D</a><a href="#pojazdy">Pojazdy</a><a href="#ranking">Ranking</a><a href="#sterowanie">Sterowanie</a><a href="#faq">FAQ</a><a href="#wersje">Wersje</a>
     </nav>
   </header>
 
@@ -301,6 +304,21 @@ footer p{max-width:80ch}
           </tbody>
         </table>
       </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="intro">
+      <span class="eyebrow">Pytania</span>
+      <h2>Najczęstsze pytania o grę</h2>
+    </div>
+    <div class="faq">
+      <details><summary>Czy gra jest darmowa?</summary><p>Tak. Demo w przeglądarce jest darmowe i nie wymaga rejestracji ani instalacji – wystarczy kliknąć „Zagraj w demo”.</p></details>
+      <details><summary>Na czym mogę zagrać?</summary><p>W każdej nowoczesnej przeglądarce na komputerze, a także na telefonie i tablecie (sterowanie dotykiem, przybliżanie dwoma palcami). Wersja na Windows z modelami 3D jest w przygotowaniu.</p></details>
+      <details><summary>Czy rozkład jazdy jest prawdziwy?</summary><p>Tak. Gra korzysta z oficjalnych plakatów PKP PLK „Odjazdy” i „Przyjazdy” dla stacji Szczecin Główny – godziny, perony, tory i dni kursowania pociągów PolRegio, Intercity i przewoźników z Niemiec.</p></details>
+      <details><summary>Na czym polega praca dyżurnego ruchu w grze?</summary><p>Przyjmujesz telefoniczne zapowiedzi pociągów od sąsiednich posterunków, ustawiasz przebiegi i semafory wjazdowe i wyjazdowe, wyprawiasz pociągi po sygnale „Gotów” kierownika i reagujesz na awarie rozjazdów, opóźnienia, pogodę i tłumy podróżnych.</p></details>
+      <details><summary>Czy to gra związana z PKP lub SimRail?</summary><p>Nie. To niezależna, niekomercyjna gra fanowska jednego autora (mrowkazq), niezwiązana z PKP PLK, PKP Intercity, PolRegio ani z grą SimRail.</p></details>
+      <details><summary>Jak długo trwa zmiana w demo?</summary><p>Demo to poranna zmiana od 7:00 do 9:00 czasu gry. Tempo można zmieniać od ½× do 8×, a grę zapisać i wrócić do niej później.</p></details>
     </div>
   </section>
 
