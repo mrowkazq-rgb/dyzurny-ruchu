@@ -27,6 +27,7 @@
 <meta name="twitter:image" content="https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/og.jpg">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoGame", "name": "Dyżurny Ruchu Szczecin Główny", "description": "Darmowa gra kolejowa: zostań dyżurnym ruchu na stacji Szczecin Główny. Prawdziwy rozkład PKP PLK, semafory, zapowiadanie pociągów, peron w 3D z siecią trakcyjną i modelami lokomotyw ze zdjęć. Graj w przeglądarce lub na Windows.", "url": "https://mrowkazq-rgb.github.io/dyzurny-ruchu/", "image": "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/og.jpg", "inLanguage": "pl", "genre": ["Symulator", "Gra kolejowa", "Strategia"], "gamePlatform": ["Przeglądarka internetowa", "Windows"], "applicationCategory": "Game", "operatingSystem": "Windows, przeglądarka", "isAccessibleForFree": true, "screenshot": ["https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/mapa.jpg", "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/p3d_ep07.jpg", "https://mrowkazq-rgb.github.io/dyzurny-ruchu/img/p3d_spacer.jpg"]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Czy gra jest darmowa?", "acceptedAnswer": {"@type": "Answer", "text": "Tak. Demo w przeglądarce jest darmowe i nie wymaga rejestracji ani instalacji – wystarczy kliknąć „Zagraj w demo”."}}, {"@type": "Question", "name": "Na czym mogę zagrać?", "acceptedAnswer": {"@type": "Answer", "text": "W każdej nowoczesnej przeglądarce na komputerze, a także na telefonie i tablecie (sterowanie dotykiem, przybliżanie dwoma palcami). Wersja na Windows z modelami 3D jest w przygotowaniu."}}, {"@type": "Question", "name": "Czy rozkład jazdy jest prawdziwy?", "acceptedAnswer": {"@type": "Answer", "text": "Tak. Gra korzysta z oficjalnych plakatów PKP PLK „Odjazdy” i „Przyjazdy” dla stacji Szczecin Główny – godziny, perony, tory i dni kursowania pociągów PolRegio, Intercity i przewoźników z Niemiec."}}, {"@type": "Question", "name": "Na czym polega praca dyżurnego ruchu w grze?", "acceptedAnswer": {"@type": "Answer", "text": "Przyjmujesz telefoniczne zapowiedzi pociągów od sąsiednich posterunków, ustawiasz przebiegi i semafory wjazdowe i wyjazdowe, wyprawiasz pociągi po sygnale „Gotów” kierownika i reagujesz na awarie rozjazdów, opóźnienia, pogodę i tłumy podróżnych."}}, {"@type": "Question", "name": "Czy to gra związana z PKP lub SimRail?", "acceptedAnswer": {"@type": "Answer", "text": "Nie. To niezależna, niekomercyjna gra fanowska jednego autora (mrowkazq), niezwiązana z PKP PLK, PKP Intercity, PolRegio ani z grą SimRail."}}, {"@type": "Question", "name": "Jak długo trwa zmiana w demo?", "acceptedAnswer": {"@type": "Answer", "text": "Demo to poranna zmiana od 7:00 do 9:00 czasu gry. Tempo można zmieniać od ½× do 8×, a grę zapisać i wrócić do niej później."}}]}</script>
+<meta name="google-site-verification" content="__pdVpypRx9E9EFhzgkP6fS0ii1nXRlTaa8DqZ3xVxY">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
@@ -156,8 +157,8 @@ footer p{max-width:80ch}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
-.faq{display:grid;gap:10px;margin-top:18px}.faq details{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:12px 16px}
-.faq summary{cursor:pointer;font-weight:600;font-size:17px}.faq details[open] summary{color:#ffd400}.faq p{margin:10px 0 2px;color:var(--muted)}
+.faq{display:grid;gap:10px;margin-top:18px}.faq details{background:color-mix(in srgb,currentColor 4%,transparent);border:1px solid color-mix(in srgb,currentColor 18%,transparent);border-radius:8px;padding:12px 16px}
+.faq summary{cursor:pointer;font-weight:600;font-size:17px}.faq details[open]{border-color:var(--accent)}.faq p{margin:10px 0 2px;color:var(--muted)}
 .autor{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--muted);font:600 13px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}
 .autor img{height:24px;width:auto;display:block}
 .autor-stopka{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-bottom:18px}
@@ -188,10 +189,10 @@ footer p{max-width:80ch}
       <p class="lead">Przyjmujesz pociągi od sąsiednich posterunków, ustawiasz przebiegi na semaforach i wyprawiasz składy według prawdziwego rozkładu z plakatów stacyjnych. Doba na stacji z czterema peronami i ośmioma torami, a na każdy peron możesz zejść i zobaczyć wjeżdżający pociąg w 3D.</p>
       <div class="soon" role="status">
         <span class="badge"><i aria-hidden="true"></i>W budowie</span>
-        <p>""" + ("Gra dopiero powstaje. Możesz już zagrać w <b>demo</b>: poranna zmiana na nastawni od 7:00 do 9:00 czasu gry, w przeglądarce. Pełna gra i wersja na Windows będą dostępne wkrótce." if DEMO else "Gra dopiero powstaje. Wersja w przeglądarce i wersja na Windows będą dostępne wkrótce. Na razie możesz zobaczyć, jak wygląda i nad czym trwają prace.") + """</p>
+        <p>Gra dopiero powstaje. Możesz już zagrać w <b>demo</b>: poranna zmiana na nastawni od 7:00 do 9:00 czasu gry, w przeglądarce. Pełna gra i wersja na Windows będą dostępne wkrótce.</p>
       </div>
       <div class="cta">
-        """ + ('<a class="btn main" href="gra/"><span class="lamp" aria-hidden="true"></span>Zagraj w demo (7:00–9:00)</a>' if DEMO else '<span class="btn main" aria-disabled="true"><span class="lamp" aria-hidden="true"></span>Zagraj – wkrótce</span>') + """
+        <a class="btn main" href="gra/"><span class="lamp" aria-hidden="true"></span>Zagraj w demo (7:00–9:00)</a>
         <span class="btn" aria-disabled="true">Pobieranie – wkrótce</span>
       </div>
     </div>
