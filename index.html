@@ -157,6 +157,16 @@ footer p{max-width:80ch}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
+.spGrid{display:grid;gap:14px;margin-top:18px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.spKarta{display:grid;gap:10px;align-content:start;padding:16px 18px;border-radius:10px;border:1px solid color-mix(in srgb,currentColor 18%,transparent);background:color-mix(in srgb,currentColor 4%,transparent)}
+.spKarta h3{margin:0;font-size:19px}.spSzeroka{grid-column:1/-1}
+.spKarta input,.spKarta select,.spKarta textarea{font:inherit;padding:9px 11px;border-radius:6px;border:1px solid color-mix(in srgb,currentColor 30%,transparent);background:transparent;color:inherit;min-width:0;width:100%;box-sizing:border-box}
+.spKarta textarea{resize:vertical}.spRzad{display:grid;gap:10px;grid-template-columns:1fr 1fr}@media(max-width:600px){.spRzad{grid-template-columns:1fr}}
+.spZgoda{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;color:var(--muted)}.spZgoda input{width:18px;height:18px;flex:none;margin-top:2px;accent-color:var(--accent);appearance:auto;-webkit-appearance:checkbox}
+.spKarta .btn{justify-self:start;cursor:pointer}
+.spLajk{justify-self:start;display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:18px;line-height:1;padding:12px 18px;border-radius:999px;cursor:pointer;border:2px solid var(--accent);background:transparent;color:inherit}
+.spLajk b{font-family:var(--mono);min-width:2ch}.spLajk.on{background:var(--accent);color:var(--accent-ink)}.spLajk:disabled{opacity:.6}
+.spInfo{margin:0;font-size:14px;min-height:1em}.spInfo.ok{color:#2e9d57}.spInfo.zle{color:#d9483b}
 .faq{display:grid;gap:10px;margin-top:18px}.faq details{background:color-mix(in srgb,currentColor 4%,transparent);border:1px solid color-mix(in srgb,currentColor 18%,transparent);border-radius:8px;padding:12px 16px}
 .faq summary{cursor:pointer;font-weight:600;font-size:17px}.faq details[open]{border-color:var(--accent)}.faq p{margin:10px 0 2px;color:var(--muted)}
 .autor{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--muted);font:600 13px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase}
@@ -179,7 +189,7 @@ footer p{max-width:80ch}
   <header class="top">
     <div class="name">Dyżurny Ruchu <span>· Szczecin Główny</span></div><a class="autor" href="#autor" title="Autor gry: mrowkazq"><span>gra od</span><img src="img/mrowkazq-logo.svg" alt="mrowkazq" width="124" height="24"></a>
     <nav aria-label="Sekcje">
-      <a href="#gra">Gra</a><a href="#peron">Peron 3D</a><a href="#pojazdy">Pojazdy</a><a href="#ranking">Ranking</a><a href="#sterowanie">Sterowanie</a><a href="#faq">FAQ</a><a href="#wersje">Wersje</a>
+      <a href="#gra">Gra</a><a href="#peron">Peron 3D</a><a href="#pojazdy">Pojazdy</a><a href="#ranking">Ranking</a><a href="#sterowanie">Sterowanie</a><a href="#spolecznosc">Zgłoś pomysł</a><a href="#faq">FAQ</a><a href="#wersje">Wersje</a>
     </nav>
   </header>
 
@@ -308,6 +318,36 @@ footer p{max-width:80ch}
     </div>
   </section>
 
+  <section id="spolecznosc">
+    <div class="intro">
+      <span class="eyebrow">Społeczność</span>
+      <h2>Pomóż budować grę</h2>
+      <p>Gra powstaje po godzinach i każdy głos się liczy. Daj znać, że Ci się podoba, zapisz się na wiadomość o nowej wersji albo zaproponuj, co zmienić.</p>
+    </div>
+    <div class="spGrid">
+      <div class="spKarta">
+        <h3>Podoba Ci się?</h3>
+        <button type="button" id="spLajk" class="spLajk" aria-label="Podoba mi się"><span aria-hidden="true">👍</span> Podoba mi się <b id="spLajkN">–</b></button>
+        <p class="spInfo" id="spLajkInfo"></p>
+      </div>
+      <form class="spKarta" id="spSub">
+        <h3>Powiadom mnie o nowej wersji</h3>
+        <input type="email" name="email" required maxlength="120" placeholder="twoj@adres.pl" autocomplete="email" aria-label="Adres e-mail">
+        <label class="spZgoda"><input type="checkbox" name="zgoda"> Zgadzam się na wysyłanie na ten adres wiadomości o nowych wersjach gry. Adres nie trafi do nikogo innego, a wypisać się można, pisząc do autora.</label>
+        <button type="submit" class="btn">Zapisz mnie</button>
+        <p class="spInfo" id="spSubInfo"></p>
+      </form>
+      <form class="spKarta spSzeroka" id="spProp">
+        <h3>Zaproponuj zmianę lub zgłoś błąd</h3>
+        <select name="rodzaj" aria-label="Rodzaj"><option value="pomysl">Pomysł / propozycja</option><option value="blad">Błąd w grze lub na stronie</option><option value="inne">Inne</option></select>
+        <textarea name="tresc" required minlength="5" maxlength="1500" rows="4" placeholder="Co dodać, co poprawić, co nie działa?" aria-label="Treść"></textarea>
+        <div class="spRzad"><input name="nick" maxlength="40" placeholder="Podpis (opcjonalnie)" aria-label="Podpis"><input name="kontakt" maxlength="120" placeholder="Kontakt do odpowiedzi (opcjonalnie)" aria-label="Kontakt"></div>
+        <button type="submit" class="btn">Wyślij</button>
+        <p class="spInfo" id="spPropInfo"></p>
+      </form>
+    </div>
+  </section>
+
   <section id="faq">
     <div class="intro">
       <span class="eyebrow">Pytania</span>
@@ -370,6 +410,6 @@ footer p{max-width:80ch}
   tick();setInterval(tick,15000);})();
 </script>
 
-<script>(function(){var u="mrowkazq",d="gmail.com",a=document.getElementById("mail");if(a){a.href="mailto:"+u+"@"+d;a.textContent=u+"@"+d;}})();</script><script src="licznik.js" defer></script><script>(function(){var R={"url": "https://qrlygdgcnzfpneorotfn.supabase.co", "key": "sb_publishable_pGFoGQZ-sWAz3RvQuX-teg_2RvnFjez"},w="demo",s=document.getElementById("ranking"),tb=document.getElementById("rankWiersze");if(!s||!tb)return;s.hidden=false;var e=function(x){return String(x).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});};fetch(R.url+"/rest/v1/wyniki?select=nick,wynik,zadowolenie,utworzono&zmiana=eq.poranek&wersja=eq."+w+"&order=wynik.desc&limit=10",{headers:{apikey:R.key,Authorization:"Bearer "+R.key}}).then(function(r){return r.json();}).then(function(l){tb.innerHTML=l.length?l.map(function(x,i){return "<tr><td>"+(i+1)+"</td><td>"+e(x.nick)+"</td><td>"+x.wynik+"</td><td>"+x.zadowolenie+"%</td><td>"+new Date(x.utworzono).toLocaleDateString("pl-PL")+"</td></tr>";}).join(""):"<tr><td colspan=\"5\">Jeszcze nikt nie wysłał wyniku – zagraj w demo i bądź pierwszy.</td></tr>";}).catch(function(){tb.innerHTML="<tr><td colspan=\"5\">Ranking chwilowo niedostępny.</td></tr>";});})();</script>
+<script>(function(){var u="mrowkazq",d="gmail.com",a=document.getElementById("mail");if(a){a.href="mailto:"+u+"@"+d;a.textContent=u+"@"+d;}})();</script><script src="licznik.js" defer></script><script>(function(){var R={"url": "https://qrlygdgcnzfpneorotfn.supabase.co", "key": "sb_publishable_pGFoGQZ-sWAz3RvQuX-teg_2RvnFjez"},w="demo",s=document.getElementById("ranking"),tb=document.getElementById("rankWiersze");if(!s||!tb)return;s.hidden=false;var e=function(x){return String(x).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});};fetch(R.url+"/rest/v1/wyniki?select=nick,wynik,zadowolenie,utworzono&zmiana=eq.poranek&wersja=eq."+w+"&order=wynik.desc&limit=10",{headers:{apikey:R.key,Authorization:"Bearer "+R.key}}).then(function(r){return r.json();}).then(function(l){tb.innerHTML=l.length?l.map(function(x,i){return "<tr><td>"+(i+1)+"</td><td>"+e(x.nick)+"</td><td>"+x.wynik+"</td><td>"+x.zadowolenie+"%</td><td>"+new Date(x.utworzono).toLocaleDateString("pl-PL")+"</td></tr>";}).join(""):"<tr><td colspan=\"5\">Jeszcze nikt nie wysłał wyniku – zagraj w demo i bądź pierwszy.</td></tr>";}).catch(function(){tb.innerHTML="<tr><td colspan=\"5\">Ranking chwilowo niedostępny.</td></tr>";});})();</script><script>window.DR_SB={"url": "https://qrlygdgcnzfpneorotfn.supabase.co", "key": "sb_publishable_pGFoGQZ-sWAz3RvQuX-teg_2RvnFjez"};</script><script src="spolecznosc.js" defer></script>
 </body>
 </html>
