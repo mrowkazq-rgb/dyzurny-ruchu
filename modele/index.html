@@ -1,4 +1,4 @@
-<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="Modele 3D lokomotyw EP09 i EP07 PKP Intercity z gry Dyżurny Ruchu Szczecin Główny – obracaj i oglądaj z każdej strony."><link rel="icon" type="image/png" href="../favicon.png"><title>Modele 3D lokomotyw – Dyżurny Ruchu Szczecin Główny</title>
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="Modele 3D lokomotyw EP09, EP07 i wagonów PKP Intercity z gry Dyżurny Ruchu Szczecin Główny – obracaj i oglądaj z każdej strony."><link rel="icon" type="image/png" href="../favicon.png"><title>Modele 3D pociągu – Dyżurny Ruchu Szczecin Główny</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
@@ -42,7 +42,7 @@ h1 span{color:var(--ic)}
   <div class="stan" id="stan">Wczytywanie modelu…</div>
   <div class="pomoc">przeciągnij – obrót · kółko lub dwa palce – przybliżenie · prawy przycisk – przesuw</div>
  </div>
- <div class="widoki" role="group" aria-label="Model"><button id="mEP09" aria-pressed="true">EP09-002</button><button id="mEP07" aria-pressed="false">EP07-1017</button></div>
+ <div class="widoki" role="group" aria-label="Model"><button id="mEP09" aria-pressed="true">EP09-002</button><button id="mEP07" aria-pressed="false">EP07-1017</button><button id="mA" aria-pressed="false">Wagon 1/2 kl.</button><button id="mB" aria-pressed="false">Wagon 2 kl.</button><button id="mBC" aria-pressed="false">Combo</button></div>
  <div class="widoki" role="group" aria-label="Widoki">
   <button id="wSkos" aria-pressed="true">Ukos</button>
   <button id="wBokA">Bok zza torów</button>
@@ -84,17 +84,17 @@ h1 span{color:var(--ic)}
  [-0.7175,0.7175].forEach(z=>{const r=new THREE.Mesh(new THREE.BoxGeometry(26,0.16,0.07),M(0xaab0b6,{metalness:0.8,roughness:0.35}));r.position.set(0,-0.04,z);sc.add(r);});
  const ctl=new THREE.OrbitControls(cam,cv);ctl.enableDamping=true;ctl.target.set(0,2,0);ctl.maxPolarAngle=Math.PI*0.52;ctl.minDistance=4;ctl.maxDistance=45;
  const WIDOKI={wSkos:[13,6.5,-11],wBokA:[0,2.2,-19],wBokB:[0,2.2,19],wCzolo:[16,2.4,0],wGora:[0.01,26,0.01]};
- let cel=null;const ustaw=id=>{const p=WIDOKI[id];cel=new THREE.Vector3(...p);document.querySelectorAll('.widoki button').forEach(b=>{if(b.id!=='wObrot')b.setAttribute('aria-pressed',b.id===id);});};
+ let cel=null,SKALA=1;const ustaw=id=>{const p=WIDOKI[id];cel=new THREE.Vector3(...p).multiplyScalar(SKALA);document.querySelectorAll('.widoki button').forEach(b=>{if(b.id!=='wObrot')b.setAttribute('aria-pressed',b.id===id);});};
  Object.keys(WIDOKI).forEach(id=>document.getElementById(id).onclick=()=>ustaw(id));
  const bo=document.getElementById('wObrot');bo.onclick=()=>{ctl.autoRotate=!ctl.autoRotate;bo.setAttribute('aria-pressed',ctl.autoRotate);};
  ctl.autoRotateSpeed=1.2;ctl.addEventListener('start',()=>{cel=null;});
  cam.position.set(...WIDOKI.wSkos);
- let biez=null;const wczytaj=(id)=>new THREE.GLTFLoader().load(id==='model'?'../gra/modele/EP09.glb':'../gra/modele/EP07.glb',g=>{if(biez)sc.remove(biez);biez=g.scene;const o=g.scene;o.traverse(m=>{if(m.isMesh){m.castShadow=true;m.receiveShadow=true;const q=m.material;if(q&&q.color&&q.emissive){const c0=q.color.clone();q.color.multiplyScalar(0.62);q.emissive.copy(c0);q.emissiveIntensity=0.34;if(q.map)q.emissiveMap=q.map;q.needsUpdate=true;}}});
+ let biez=null;const wczytaj=(id)=>new THREE.GLTFLoader().load('../gra/modele/'+id+'.glb',g=>{if(biez)sc.remove(biez);biez=g.scene;const o=g.scene;o.traverse(m=>{if(m.isMesh){m.castShadow=true;m.receiveShadow=true;const q=m.material;if(q&&q.color&&q.emissive){const c0=q.color.clone();q.color.multiplyScalar(0.62);q.emissive.copy(c0);q.emissiveIntensity=0.34;if(q.map)q.emissiveMap=q.map;q.needsUpdate=true;}}});
    const bb=new THREE.Box3().setFromObject(o),sz=bb.getSize(new THREE.Vector3()),c=bb.getCenter(new THREE.Vector3());
-   o.position.set(-c.x,-bb.min.y,-c.z);sc.add(o);stan.hidden=true;},x=>{stan.hidden=false;if(x.total)stan.textContent='Wczytywanie modelu… '+Math.round(100*x.loaded/x.total)+'%';},()=>{stan.textContent='Nie udało się wczytać modelu.';});
- wczytaj('model');
- const DANE={EP09:['EP09-<span>002</span>',['16,74 m','2,974 m','4,30 m','160 km/h',"Bo′Bo′",'91 51 1 150 013-7']],EP07:['EP07-<span>1017</span>',['15,915 m','3,038 m','4,343 m','125 km/h',"Bo′Bo′",'91 51 3 150 142-7']]};
- ['EP09','EP07'].forEach(k=>document.getElementById('m'+k).onclick=()=>{wczytaj(k==='EP09'?'model':'model07');document.getElementById('tyt').innerHTML=DANE[k][0];document.querySelectorAll('.dane dd').forEach((d,i)=>d.textContent=DANE[k][1][i]);['EP09','EP07'].forEach(q=>document.getElementById('m'+q).setAttribute('aria-pressed',q===k));});
+   o.position.set(-c.x,-bb.min.y,-c.z);sc.add(o);const s2=Math.max(1,sz.x/16.7);cam.position.multiplyScalar(s2/SKALA);if(cel)cel.multiplyScalar(s2/SKALA);SKALA=s2;stan.hidden=true;},x=>{stan.hidden=false;if(x.total)stan.textContent='Wczytywanie modelu… '+Math.round(100*x.loaded/x.total)+'%';},()=>{stan.textContent='Nie udało się wczytać modelu.';});
+ wczytaj('EP09');
+ const DANE={EP09:['EP09-<span>002</span>',['16,74 m','2,974 m','4,30 m','160 km/h',"Bo′Bo′",'91 51 1 150 013-7']],EP07:['EP07-<span>1017</span>',['15,915 m','3,038 m','4,343 m','125 km/h',"Bo′Bo′",'91 51 3 150 142-7']],A:['Wagon <span>1/2 kl.</span>',['26,40 m','2,88 m','4,05 m','160 km/h',"2′2′",'61 51 39-90']],B:['Wagon <span>2 kl.</span>',['26,40 m','2,88 m','4,05 m','160 km/h',"2′2′",'61 51 20-90']],BC:['Wagon <span>Combo</span>',['26,40 m','2,88 m','4,05 m','160 km/h',"2′2′",'61 51 84-90']]};
+ Object.keys(DANE).forEach(k=>document.getElementById('m'+k).onclick=()=>{wczytaj(k);document.getElementById('tyt').innerHTML=DANE[k][0];document.querySelectorAll('.dane dd').forEach((d,i)=>d.textContent=DANE[k][1][i]);Object.keys(DANE).forEach(q=>document.getElementById('m'+q).setAttribute('aria-pressed',q===k));});
  const resize=()=>{const w=box.clientWidth,h=box.clientHeight;R.setPixelRatio(Math.min(2,devicePixelRatio||1));R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();};
  new ResizeObserver(resize).observe(box);resize();
  const red=matchMedia('(prefers-reduced-motion: reduce)').matches;
