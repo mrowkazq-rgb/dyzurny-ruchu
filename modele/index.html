@@ -1,0 +1,104 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="Modele 3D lokomotyw EP09 i EP07 PKP Intercity z gry Dyżurny Ruchu Szczecin Główny – obracaj i oglądaj z każdej strony."><link rel="icon" type="image/png" href="../favicon.png"><title>Modele 3D lokomotyw – Dyżurny Ruchu Szczecin Główny</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* uklad: scena 3D na calej szerokosci, pod nia pasek widokow i karta danych lokomotywy */
+:root{
+ --bg:#e9edf2; --panel:#f8fafc; --fg:#14213a; --muted:#56637a; --line:#c9d2de; --accent:#1f3f9a; --ic:#f08a1c;
+ --scena1:#dfe6ee; --scena2:#b9c4d1;
+ --f-disp:"Barlow Condensed","Arial Narrow",sans-serif; --f-body:"Barlow",system-ui,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0d1420;--panel:#141d2c;--fg:#e6ecf4;--muted:#93a1b6;--line:#26344a;--accent:#7fa2ff;--ic:#f5a04a;--scena1:#1b2638;--scena2:#0a101a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0d1420;--panel:#141d2c;--fg:#e6ecf4;--muted:#93a1b6;--line:#26344a;--accent:#7fa2ff;--ic:#f5a04a;--scena1:#1b2638;--scena2:#0a101a;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.5 var(--f-body)}
+.wrap{max-width:1180px;margin:0 auto;padding:20px 16px 32px;display:grid;gap:14px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px}
+h1{margin:0;font:700 clamp(30px,6vw,46px)/1 var(--f-disp);letter-spacing:.01em;text-wrap:balance}
+h1 span{color:var(--ic)}
+.sub{color:var(--muted);margin:0}
+.scena{position:relative;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:radial-gradient(120% 90% at 50% 20%,var(--scena1),var(--scena2));aspect-ratio:16/8;min-height:300px;max-width:100%}
+.scena canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+.scena canvas:active{cursor:grabbing}
+.stan[hidden]{display:none}.stan{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font:500 15px var(--f-mono);pointer-events:none}
+.pomoc{position:absolute;left:12px;bottom:10px;font:500 12px var(--f-mono);color:var(--muted);background:color-mix(in srgb,var(--panel) 80%,transparent);padding:4px 8px;border-radius:5px}
+.widoki{display:flex;flex-wrap:wrap;gap:8px}
+.widoki button{font:600 15px var(--f-body);padding:8px 14px;border-radius:7px;border:1px solid var(--line);background:var(--panel);color:var(--fg);cursor:pointer}
+.widoki button[aria-pressed="true"]{border-color:var(--accent);color:var(--accent)}
+.widoki button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.dane{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.dane div{background:var(--panel);padding:10px 14px;display:grid;gap:2px}
+.dane dt{font:600 12px var(--f-body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.dane dd{margin:0;font:500 20px var(--f-mono);font-variant-numeric:tabular-nums}
+.uwaga{color:var(--muted);font-size:14px;max-width:70ch;margin:0}
+</style></head><body>
+
+<div class="wrap">
+ <header>
+  <h1 id="tyt">EP09-<span>002</span></h1>
+  <p class="sub">Lokomotywa PKP Intercity ze Szczecina Głównego – model ze zdjęć</p>
+ </header>
+ <div class="scena" id="scena">
+  <canvas id="cv" aria-label="Model 3D lokomotywy EP09-002, obracany myszką lub palcem"></canvas>
+  <div class="stan" id="stan">Wczytywanie modelu…</div>
+  <div class="pomoc">przeciągnij – obrót · kółko lub dwa palce – przybliżenie · prawy przycisk – przesuw</div>
+ </div>
+ <div class="widoki" role="group" aria-label="Model"><button id="mEP09" aria-pressed="true">EP09-002</button><button id="mEP07" aria-pressed="false">EP07-1017</button></div>
+ <div class="widoki" role="group" aria-label="Widoki">
+  <button id="wSkos" aria-pressed="true">Ukos</button>
+  <button id="wBokA">Bok zza torów</button>
+  <button id="wBokB">Bok od peronu</button>
+  <button id="wCzolo">Czoło</button>
+  <button id="wGora">Z góry</button>
+  <button id="wObrot" aria-pressed="false">Obracaj</button>
+ </div>
+ <dl class="dane">
+  <div><dt>Długość ze zderzakami</dt><dd>16,74 m</dd></div>
+  <div><dt>Szerokość</dt><dd>2,974 m</dd></div>
+  <div><dt>Wysokość</dt><dd>4,30 m</dd></div>
+  <div><dt>Prędkość maks.</dt><dd>160 km/h</dd></div>
+  <div><dt>Układ osi</dt><dd>Bo′Bo′</dd></div>
+  <div><dt>Numer UIC</dt><dd>91 51 1 150 013-7</dd></div>
+ </dl>
+ <p class="uwaga"><a href="../" style="color:var(--accent)">← Strona gry</a> · <a href="../gra/" style="color:var(--accent)">Zagraj</a><br>Model wykonany ręcznie według wymiarów zmierzonych ze skanu i Twoich zdjęć: bryła z szybami w ramach, żaluzjami z lamelami, poręczami i reflektorami, malowanie PKP Intercity narysowane od nowa jako czysta grafika (układ kratek, okien, pasów i napisów zmierzony na zdjęciach obu boków).</p>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+ const cv=document.getElementById('cv'),stan=document.getElementById('stan'),box=document.getElementById('scena');
+ const R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});R.outputEncoding=THREE.sRGBEncoding;R.toneMapping=THREE.NoToneMapping;   /* bez ACES: kolory malowania 1:1 */
+ R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;
+ const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(32,2,0.1,300);
+ sc.add(new THREE.HemisphereLight(0xeef3fa,0x6a665e,0.88));
+ const sl=new THREE.DirectionalLight(0xfff4e0,0.88);sl.position.set(-12,18,10);sl.castShadow=true;sl.shadow.mapSize.set(2048,2048);
+ Object.assign(sl.shadow.camera,{left:-14,right:14,top:8,bottom:-8,near:1,far:60});sc.add(sl);
+ const fill=new THREE.DirectionalLight(0xdfe8ff,0.3);fill.position.set(10,6,-12);sc.add(fill);
+ // tor: podklady, szyny, tluczen
+ const M=(c,o)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:0.9},o||{}));
+ const bal=new THREE.Mesh(new THREE.BoxGeometry(26,0.3,3.6),M(0x6e675d));bal.position.y=-0.33;bal.receiveShadow=true;sc.add(bal);
+ const pod=new THREE.InstancedMesh(new THREE.BoxGeometry(0.26,0.16,2.6),M(0x8c8378),40),mm=new THREE.Matrix4();
+ for(let i=0;i<40;i++){mm.makeTranslation(-11.7+i*0.6,-0.12,0);pod.setMatrixAt(i,mm);}pod.receiveShadow=true;sc.add(pod);
+ [-0.7175,0.7175].forEach(z=>{const r=new THREE.Mesh(new THREE.BoxGeometry(26,0.16,0.07),M(0xaab0b6,{metalness:0.8,roughness:0.35}));r.position.set(0,-0.04,z);sc.add(r);});
+ const ctl=new THREE.OrbitControls(cam,cv);ctl.enableDamping=true;ctl.target.set(0,2,0);ctl.maxPolarAngle=Math.PI*0.52;ctl.minDistance=4;ctl.maxDistance=45;
+ const WIDOKI={wSkos:[13,6.5,-11],wBokA:[0,2.2,-19],wBokB:[0,2.2,19],wCzolo:[16,2.4,0],wGora:[0.01,26,0.01]};
+ let cel=null;const ustaw=id=>{const p=WIDOKI[id];cel=new THREE.Vector3(...p);document.querySelectorAll('.widoki button').forEach(b=>{if(b.id!=='wObrot')b.setAttribute('aria-pressed',b.id===id);});};
+ Object.keys(WIDOKI).forEach(id=>document.getElementById(id).onclick=()=>ustaw(id));
+ const bo=document.getElementById('wObrot');bo.onclick=()=>{ctl.autoRotate=!ctl.autoRotate;bo.setAttribute('aria-pressed',ctl.autoRotate);};
+ ctl.autoRotateSpeed=1.2;ctl.addEventListener('start',()=>{cel=null;});
+ cam.position.set(...WIDOKI.wSkos);
+ let biez=null;const wczytaj=(id)=>new THREE.GLTFLoader().load(id==='model'?'../gra/modele/EP09.glb':'../gra/modele/EP07.glb',g=>{if(biez)sc.remove(biez);biez=g.scene;const o=g.scene;o.traverse(m=>{if(m.isMesh){m.castShadow=true;m.receiveShadow=true;const q=m.material;if(q&&q.color&&q.emissive){const c0=q.color.clone();q.color.multiplyScalar(0.62);q.emissive.copy(c0);q.emissiveIntensity=0.34;if(q.map)q.emissiveMap=q.map;q.needsUpdate=true;}}});
+   const bb=new THREE.Box3().setFromObject(o),sz=bb.getSize(new THREE.Vector3()),c=bb.getCenter(new THREE.Vector3());
+   o.position.set(-c.x,-bb.min.y,-c.z);sc.add(o);stan.hidden=true;},x=>{stan.hidden=false;if(x.total)stan.textContent='Wczytywanie modelu… '+Math.round(100*x.loaded/x.total)+'%';},()=>{stan.textContent='Nie udało się wczytać modelu.';});
+ wczytaj('model');
+ const DANE={EP09:['EP09-<span>002</span>',['16,74 m','2,974 m','4,30 m','160 km/h',"Bo′Bo′",'91 51 1 150 013-7']],EP07:['EP07-<span>1017</span>',['15,915 m','3,038 m','4,343 m','125 km/h',"Bo′Bo′",'91 51 3 150 142-7']]};
+ ['EP09','EP07'].forEach(k=>document.getElementById('m'+k).onclick=()=>{wczytaj(k==='EP09'?'model':'model07');document.getElementById('tyt').innerHTML=DANE[k][0];document.querySelectorAll('.dane dd').forEach((d,i)=>d.textContent=DANE[k][1][i]);['EP09','EP07'].forEach(q=>document.getElementById('m'+q).setAttribute('aria-pressed',q===k));});
+ const resize=()=>{const w=box.clientWidth,h=box.clientHeight;R.setPixelRatio(Math.min(2,devicePixelRatio||1));R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();};
+ new ResizeObserver(resize).observe(box);resize();
+ const red=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ (function petla(){requestAnimationFrame(petla);if(cel){cam.position.lerp(cel,red?1:0.08);if(cam.position.distanceTo(cel)<0.05)cel=null;}ctl.update();R.render(sc,cam);})();
+})();
+</script>
+<script src="../licznik.js" defer></script></body></html>
