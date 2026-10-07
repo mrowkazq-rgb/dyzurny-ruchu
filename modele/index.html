@@ -1,4 +1,4 @@
-<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="Modele 3D lokomotyw EP09, EP07 i wagonów PKP Intercity z gry Dyżurny Ruchu Szczecin Główny – obracaj i oglądaj z każdej strony."><link rel="icon" type="image/png" href="../favicon.png"><title>Modele 3D pociągu – Dyżurny Ruchu Szczecin Główny</title>
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="Modele 3D lokomotyw EP09, EP07, wagonów PKP Intercity, Impulsa 2 i szynobusu SA136 z gry Dyżurny Ruchu Szczecin Główny – obracaj i oglądaj z każdej strony."><link rel="icon" type="image/png" href="../favicon.png"><title>Modele 3D pociągu – Dyżurny Ruchu Szczecin Główny</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
@@ -42,7 +42,7 @@ h1 span{color:var(--ic)}
   <div class="stan" id="stan">Wczytywanie modelu…</div>
   <div class="pomoc">przeciągnij – obrót · kółko lub dwa palce – przybliżenie · prawy przycisk – przesuw</div>
  </div>
- <div class="widoki" role="group" aria-label="Model"><button id="mEP09" aria-pressed="true">EP09-002</button><button id="mEP07" aria-pressed="false">EP07-1017</button><button id="mA" aria-pressed="false">Wagon 1/2 kl.</button><button id="mB" aria-pressed="false">Wagon 2 kl.</button><button id="mBC" aria-pressed="false">Combo</button></div>
+ <div class="widoki" role="group" aria-label="Model"><button id="mEP09" aria-pressed="true">EP09-002</button><button id="mEP07" aria-pressed="false">EP07-1017</button><button id="mA" aria-pressed="false">Wagon 1/2 kl.</button><button id="mB" aria-pressed="false">Wagon 2 kl.</button><button id="mBC" aria-pressed="false">Combo</button><button id="mIMP" aria-pressed="false">Impuls 2</button><button id="mSA" aria-pressed="false">SA136</button></div>
  <div class="widoki" role="group" aria-label="Widoki">
   <button id="wSkos" aria-pressed="true">Ukos</button>
   <button id="wBokA">Bok zza torów</button>
@@ -93,7 +93,7 @@ h1 span{color:var(--ic)}
    const bb=new THREE.Box3().setFromObject(o),sz=bb.getSize(new THREE.Vector3()),c=bb.getCenter(new THREE.Vector3());
    o.position.set(-c.x,-bb.min.y,-c.z);sc.add(o);const s2=Math.max(1,sz.x/16.7);cam.position.multiplyScalar(s2/SKALA);if(cel)cel.multiplyScalar(s2/SKALA);SKALA=s2;stan.hidden=true;},x=>{stan.hidden=false;if(x.total)stan.textContent='Wczytywanie modelu… '+Math.round(100*x.loaded/x.total)+'%';},()=>{stan.textContent='Nie udało się wczytać modelu.';});
  wczytaj('EP09');
- const DANE={EP09:['EP09-<span>002</span>',['16,74 m','2,974 m','4,30 m','160 km/h',"Bo′Bo′",'91 51 1 150 013-7']],EP07:['EP07-<span>1017</span>',['15,915 m','3,038 m','4,343 m','125 km/h',"Bo′Bo′",'91 51 3 150 142-7']],A:['Wagon <span>1/2 kl.</span>',['26,40 m','2,88 m','4,05 m','160 km/h',"2′2′",'61 51 39-90']],B:['Wagon <span>2 kl.</span>',['26,40 m','2,88 m','4,05 m','160 km/h',"2′2′",'61 51 20-90']],BC:['Wagon <span>Combo</span>',['26,40 m','2,88 m','4,05 m','160 km/h',"2′2′",'61 51 84-90']]};
+ const DANE={EP09:['EP09-<span>002</span>',['16,74 m','2,974 m','4,30 m','160 km/h',"Bo′Bo′",'91 51 1 150 013-7']],EP07:['EP07-<span>1017</span>',['15,915 m','3,038 m','4,343 m','125 km/h',"Bo′Bo′",'91 51 3 150 142-7']],A:['Wagon <span>1/2 kl.</span>',['26,40 m','2,88 m','4,05 m','160 km/h',"2′2′",'61 51 39-90']],B:['Wagon <span>2 kl.</span>',['26,40 m','2,88 m','4,05 m','160 km/h',"2′2′",'61 51 20-90']],BC:['Wagon <span>Combo</span>',['26,40 m','2,88 m','4,05 m','160 km/h',"2′2′",'61 51 84-90']],IMP:['Impuls <span>31WEbb</span>',['74,40 m','2,84 m','4,15 m','160 km/h',"Bo′2′2′2′Bo′",'31WEbb-024']],SA:['Szynobus <span>SA136</span>',['55,57 m','2,883 m','4,185 m','120 km/h',"B′2′2′B′",'SA136-001']]};
  Object.keys(DANE).forEach(k=>document.getElementById('m'+k).onclick=()=>{wczytaj(k);document.getElementById('tyt').innerHTML=DANE[k][0];document.querySelectorAll('.dane dd').forEach((d,i)=>d.textContent=DANE[k][1][i]);Object.keys(DANE).forEach(q=>document.getElementById('m'+q).setAttribute('aria-pressed',q===k));});
  const resize=()=>{const w=box.clientWidth,h=box.clientHeight;R.setPixelRatio(Math.min(2,devicePixelRatio||1));R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();};
  new ResizeObserver(resize).observe(box);resize();
