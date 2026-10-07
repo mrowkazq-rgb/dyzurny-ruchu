@@ -65,11 +65,11 @@ h1 span{color:var(--ic)}
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/GLTFLoader.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script><script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/environments/RoomEnvironment.js"></script>
 <script>
 (function(){
  const cv=document.getElementById('cv'),stan=document.getElementById('stan'),box=document.getElementById('scena');
- const R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});R.outputEncoding=THREE.sRGBEncoding;R.toneMapping=THREE.NoToneMapping;   /* bez ACES: kolory malowania 1:1 */
+ const R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});R.outputEncoding=THREE.sRGBEncoding;R.toneMapping=THREE.NoToneMapping;const ENV=THREE.RoomEnvironment?(()=>{const pm=new THREE.PMREMGenerator(R),t=pm.fromScene(new THREE.RoomEnvironment(),0.04).texture;pm.dispose();return t;})():null;   /* odbicia w lakierze */   /* bez ACES: kolory malowania 1:1 */
  R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;
  const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(32,2,0.1,300);
  sc.add(new THREE.HemisphereLight(0xeef3fa,0x6a665e,0.88));
@@ -89,7 +89,7 @@ h1 span{color:var(--ic)}
  const bo=document.getElementById('wObrot');bo.onclick=()=>{ctl.autoRotate=!ctl.autoRotate;bo.setAttribute('aria-pressed',ctl.autoRotate);};
  ctl.autoRotateSpeed=1.2;ctl.addEventListener('start',()=>{cel=null;});
  cam.position.set(...WIDOKI.wSkos);
- let biez=null;const wczytaj=(id)=>new THREE.GLTFLoader().load('../gra/modele/'+id+'.glb',g=>{if(biez)sc.remove(biez);biez=g.scene;const o=g.scene;o.traverse(m=>{if(m.isMesh){m.castShadow=true;m.receiveShadow=true;const q=m.material;if(q&&q.color&&q.emissive){const c0=q.color.clone();q.color.multiplyScalar(0.62);q.emissive.copy(c0);q.emissiveIntensity=0.34;if(q.map)q.emissiveMap=q.map;q.needsUpdate=true;}}});
+ let biez=null;const wczytaj=(id)=>new THREE.GLTFLoader().load('../gra/modele/'+id+'.glb',g=>{if(biez)sc.remove(biez);biez=g.scene;const o=g.scene;o.traverse(m=>{if(m.isMesh){m.castShadow=true;m.receiveShadow=true;const q=m.material;if(q&&q.color&&q.emissive){const c0=q.color.clone();q.color.multiplyScalar(0.62);q.emissive.copy(c0);q.emissiveIntensity=0.2;if(q.map)q.emissiveMap=q.map;if(ENV){q.envMap=ENV;if(q.map){q.metalness=0.55;q.roughness=0.2;q.envMapIntensity=1.45;}else{q.metalness=Math.max(q.metalness,0.5);q.roughness=Math.min(q.roughness,0.5);q.envMapIntensity=0.8;}}q.needsUpdate=true;}}});
    const bb=new THREE.Box3().setFromObject(o),sz=bb.getSize(new THREE.Vector3()),c=bb.getCenter(new THREE.Vector3());
    o.position.set(-c.x,-bb.min.y,-c.z);sc.add(o);const s2=Math.max(1,sz.x/16.7);cam.position.multiplyScalar(s2/SKALA);if(cel)cel.multiplyScalar(s2/SKALA);SKALA=s2;stan.hidden=true;},x=>{stan.hidden=false;if(x.total)stan.textContent='Wczytywanie modelu… '+Math.round(100*x.loaded/x.total)+'%';},()=>{stan.textContent='Nie udało się wczytać modelu.';});
  wczytaj('EP09');
