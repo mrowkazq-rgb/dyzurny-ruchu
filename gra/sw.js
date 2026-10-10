@@ -1,8 +1,8 @@
 // Service worker gry (PWA): gra dziala bez internetu po pierwszym wczytaniu.
-// Strona gry - najpierw siec (zawsze najnowsza wersja), w razie braku sieci - kopia.
+// Strona gry - zawsze z sieci z pominieciem cache HTTP (no-store), w razie braku sieci - kopia.
 // Biblioteki, czcionki, modele 3D - najpierw kopia (szybko), w tle odswiezenie.
 // Licznik odwiedzin i ranking (API) - tylko siec, bez kopii.
-const WERSJA = '202610102254';
+const WERSJA = '20261010231018';
 const KOPIA = 'dyzurny-' + WERSJA;
 const START = ['./', './manifest.webmanifest', './ikona-192.png', './ikona-512.png'];
 
@@ -19,7 +19,7 @@ self.addEventListener('fetch', e => {
   if (/abacus|supabase|indexnow/.test(u.hostname)) return;              // API - tylko siec
   const strona = r.mode === 'navigate' || (u.origin === location.origin && /\/(index\.html)?$/.test(u.pathname));
   if (strona) {
-    e.respondWith(fetch(r).then(res => { const k = res.clone(); caches.open(KOPIA).then(c => c.put(r, k)); return res; })
+    e.respondWith(fetch(r.url, { cache: 'no-store', credentials: 'same-origin' }).then(res => { const k = res.clone(); caches.open(KOPIA).then(c => c.put(r, k)); return res; })
       .catch(() => caches.match(r).then(m => m || caches.match('./'))));
     return;
   }
