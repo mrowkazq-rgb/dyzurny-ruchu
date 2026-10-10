@@ -2,7 +2,7 @@
 // Strona gry - zawsze z sieci z pominieciem cache HTTP (no-store), w razie braku sieci - kopia.
 // Biblioteki, czcionki, modele 3D - najpierw kopia (szybko), w tle odswiezenie.
 // Licznik odwiedzin i ranking (API) - tylko siec, bez kopii.
-const WERSJA = '20261010231018';
+const WERSJA = '20261010231501';
 const KOPIA = 'dyzurny-' + WERSJA;
 const START = ['./', './manifest.webmanifest', './ikona-192.png', './ikona-512.png'];
 
