@@ -50,7 +50,7 @@ th{font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color
 <body>
 <div class="wrap">
   <header><a href="../">← Strona gry</a><img src="../img/mrowkazq-logo.svg" alt="mrowkazq" width="155" height="30"></header>
-  <h1>Statystyki odwiedzin</h1>
+  <h1>Statystyki</h1>
   <p class="sub">Liczniki strony gry Dyżurny Ruchu Szczecin Główny i wersji demo. Bez ciasteczek i bez danych osobowych: zliczane są tylko wejścia.</p>
   <div class="tiles">
     <div class="tile"><span class="k">Wyświetlenia</span><span class="v" id="t-wys">–</span><span class="o">strony głównej, łącznie</span></div>
@@ -66,6 +66,16 @@ th{font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color
   <details><summary>Tabela z liczbami</summary><div class="tw"><table id="tab"><thead><tr><th>Dzień</th><th>Wyświetlenia</th><th>Odwiedzający</th><th>w tym nowi</th><th>powracający</th></tr></thead><tbody></tbody></table></div></details>
   <h2>Urządzenia</h2>
   <p class="sub" style="margin:0">Komputer: <b id="t-pc">–</b> · telefon lub tablet: <b id="t-tel">–</b> (pierwsze wejście danej przeglądarki).</p>
+  <h2>Gra w Roblox</h2>
+  <p class="sub" style="margin:0">Wersja gry na platformie Roblox. Serwer gry zlicza graczy i zmiany – bez danych osobowych.</p>
+  <div class="tiles">
+    <div class="tile"><span class="k">Gracze</span><span class="v" id="r-gr">–</span><span class="o">różne konta Roblox</span></div>
+    <div class="tile"><span class="k">Wejścia</span><span class="v" id="r-wej">–</span><span class="o">do gry, łącznie</span></div>
+    <div class="tile"><span class="k">Rozpoczęte zmiany</span><span class="v" id="r-st">–</span><span class="o">w tym <span id="r-wst">–</span> wyzwań dnia</span></div>
+    <div class="tile"><span class="k">Ukończone zmiany</span><span class="v" id="r-kon">–</span><span class="o"><span id="r-prz">–</span> z zaległymi pociągami</span></div>
+    <div class="tile"><span class="k">Wyzwania dnia</span><span class="v" id="r-wy">–</span><span class="o">ukończone · <span id="r-osi">–</span> osiągnięć</span></div>
+  </div>
+  <details><summary>Roblox – ostatnie 14 dni</summary><div class="tw"><table id="rtab"><thead><tr><th>Dzień</th><th>Gracze</th><th>w tym nowi</th><th>Rozpoczęte zmiany</th><th>Ukończone</th></tr></thead><tbody></tbody></table></div></details>
   <p class="note">Liczniki prowadzi bezpłatna usługa Abacus. Wejścia autora można wyłączyć z liczenia, otwierając stronę z dopiskiem <code>?nieliczmnie</code> w adresie (zapamiętuje to przeglądarka).</p>
 </div>
 <script>
@@ -77,6 +87,12 @@ th{font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color
     var p=kolejka.then(function(){return fetch(API+'/get/'+NS+'/'+k).then(function(r){return r.json();}).then(function(j){return j.value||0;}).catch(function(){return 0;});});
     kolejka=p.then(function(){return new Promise(function(ok){setTimeout(ok,360);});});return p;}
   var f=function(v){return Number(v).toLocaleString('pl-PL');};
+  setTimeout(function(){ // Roblox po licznikach strony (kolejka zapytan)
+  [['rbx-gracze','r-gr'],['rbx-wejscia','r-wej'],['rbx-start','r-st'],['rbx-wyzw-start','r-wst'],['rbx-koniec','r-kon'],['rbx-przerwane','r-prz'],['rbx-wyzw','r-wy'],['rbx-osi','r-osi']].forEach(function(q){get(q[0]).then(function(v){document.getElementById(q[1]).textContent=f(v);});});
+  (function(){var dn=[];for(var i=13;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);dn.push(d);}
+   Promise.all(dn.map(function(d){return Promise.all([get('rbx-u-'+dz(d)),get('rbx-n-'+dz(d)),get('rbx-d-'+dz(d)),get('rbx-k-'+dz(d))]);})).then(function(w){
+    document.querySelector('#rtab tbody').innerHTML=dn.slice().reverse().map(function(d,i){var x=w[w.length-1-i];return '<tr><td>'+d.toLocaleDateString('pl-PL')+'</td><td>'+f(x[0])+'</td><td>'+f(x[1])+'</td><td>'+f(x[2])+'</td><td>'+f(x[3])+'</td></tr>';}).join('');});})();
+  },0);
   [['wyswietlenia','t-wys'],['unikalni','t-uni'],['powroty','t-pow'],['demo-start','t-start'],['demo-wejscia','t-wej'],['demo-koniec','t-kon'],['pc','t-pc'],['tel','t-tel']].forEach(function(q){get(q[0]).then(function(v){document.getElementById(q[1]).textContent=f(v);});});
   var dni=[],t=new Date();for(var i=13;i>=0;i--){var d=new Date(t);d.setDate(t.getDate()-i);dni.push(d);}
   Promise.all(dni.map(function(d){return Promise.all([get('d-'+dz(d)),get('u-'+dz(d)),get('n-'+dz(d)),get('p-'+dz(d))]);})).then(function(w){

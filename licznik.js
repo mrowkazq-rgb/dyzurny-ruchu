@@ -11,6 +11,15 @@
 
   function get(k) { return fetch(API + '/get/' + NS + '/' + k).then(function (r) { return r.json(); }).then(function (j) { return j.value || 0; }).catch(function () { return null; }); }
   var strona = document.documentElement.getAttribute('data-strona') || 'start';
+  // statystyki z gry w Roblox (serwer gry zlicza te same liczniki z kluczami rbx-*); linijka widoczna, gdy ktos juz zagral
+  var rbx = document.getElementById('rbxLicznik');
+  if (rbx) {
+    var el = rbx.querySelectorAll('[data-rbx]');
+    Promise.all(Array.prototype.map.call(el, function (e) { return get(e.getAttribute('data-rbx')); })).then(function (w) {
+      w.forEach(function (v, i) { el[i].textContent = (v || 0).toLocaleString('pl-PL'); });
+      if (w[0] > 0 || w[1] > 0) rbx.hidden = false;
+    });
+  }
   // autor: ?nieliczmnie – ta przeglądarka przestaje być liczona (zapamiętane), ?liczmnie – cofa
   if (/[?&]nieliczmnie\b/.test(location.search)) ls('dr_nie_licz', '1');
   if (/[?&]liczmnie\b/.test(location.search)) ls('dr_nie_licz', '0');
