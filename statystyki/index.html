@@ -75,6 +75,13 @@ th{font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color
     <div class="tile"><span class="k">Ukończone zmiany</span><span class="v" id="r-kon">–</span><span class="o"><span id="r-prz">–</span> z zaległymi pociągami</span></div>
     <div class="tile"><span class="k">Wyzwania dnia</span><span class="v" id="r-wy">–</span><span class="o">ukończone · <span id="r-osi">–</span> osiągnięć</span></div>
   </div>
+  <div class="tiles" style="margin-top:12px">
+    <div class="tile"><span class="k">Wizyty</span><span class="v" id="p-vis">–</span><span class="o">licznik Roblox</span></div>
+    <div class="tile"><span class="k">Grają teraz</span><span class="v" id="p-pl">–</span><span class="o">na wszystkich serwerach</span></div>
+    <div class="tile"><span class="k">Ulubione</span><span class="v" id="p-fav">–</span><span class="o">dodali grę do ulubionych</span></div>
+    <div class="tile"><span class="k">Polubienia</span><span class="v" id="p-up">–</span><span class="o"><span id="p-down">–</span> nie lubi</span></div>
+    <div class="tile"><span class="k">Gra</span><span class="v" style="font-size:20px"><a href="https://www.roblox.com/games/108395763106383" target="_blank" rel="noopener">Zagraj ↗</a></span><span class="o">roblox.com</span></div>
+  </div>
   <details><summary>Roblox – ostatnie 14 dni</summary><div class="tw"><table id="rtab"><thead><tr><th>Dzień</th><th>Gracze</th><th>w tym nowi</th><th>Rozpoczęte zmiany</th><th>Ukończone</th></tr></thead><tbody></tbody></table></div></details>
   <p class="note">Liczniki prowadzi bezpłatna usługa Abacus. Wejścia autora można wyłączyć z liczenia, otwierając stronę z dopiskiem <code>?nieliczmnie</code> w adresie (zapamiętuje to przeglądarka).</p>
 </div>
@@ -87,6 +94,9 @@ th{font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color
     var p=kolejka.then(function(){return fetch(API+'/get/'+NS+'/'+k).then(function(r){return r.json();}).then(function(j){return j.value||0;}).catch(function(){return 0;});});
     kolejka=p.then(function(){return new Promise(function(ok){setTimeout(ok,360);});});return p;}
   var f=function(v){return Number(v).toLocaleString('pl-PL');};
+  (function(){var U=10771308325,g=function(u){return fetch(u).then(function(r){return r.json();}).catch(function(){return null;});};
+   return Promise.all([g('https://games.roproxy.com/v1/games?universeIds='+U),g('https://games.roproxy.com/v1/games/votes?universeIds='+U),g('https://games.roproxy.com/v1/games/'+U+'/favorites/count')]).then(function(w){
+    var d=w[0]&&w[0].data&&w[0].data[0],v=w[1]&&w[1].data&&w[1].data[0];return d?{visits:d.visits||0,playing:d.playing||0,favorites:(w[2]&&w[2].favoritesCount)||0,up:v?v.upVotes:0,down:v?v.downVotes:0}:null;});})().then(function(p){if(!p)return;[['visits','p-vis'],['playing','p-pl'],['favorites','p-fav'],['up','p-up'],['down','p-down']].forEach(function(q){document.getElementById(q[1]).textContent=f(p[q[0]]);});});
   setTimeout(function(){ // Roblox po licznikach strony (kolejka zapytan)
   [['rbx-gracze','r-gr'],['rbx-wejscia','r-wej'],['rbx-start','r-st'],['rbx-wyzw-start','r-wst'],['rbx-koniec','r-kon'],['rbx-przerwane','r-prz'],['rbx-wyzw','r-wy'],['rbx-osi','r-osi']].forEach(function(q){get(q[0]).then(function(v){document.getElementById(q[1]).textContent=f(v);});});
   (function(){var dn=[];for(var i=13;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);dn.push(d);}

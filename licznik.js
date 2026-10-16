@@ -10,6 +10,19 @@
   window.LICZNIK = { NS: NS, API: API, dzien: dzien, hit: hit };
 
   function get(k) { return fetch(API + '/get/' + NS + '/' + k).then(function (r) { return r.json(); }).then(function (j) { return j.value || 0; }).catch(function () { return null; }); }
+
+  // publiczne liczby gry w Roblox (wizyty, grajacy teraz, ulubione, polubienia) – przez roproxy (Roblox nie pozwala na zapytania ze stron)
+  var RBX_UNI = 10771308325;
+  function rbxPub() {
+    var g = function (u) { return fetch(u).then(function (r) { return r.json(); }).catch(function () { return null; }); };
+    return Promise.all([g('https://games.roproxy.com/v1/games?universeIds=' + RBX_UNI), g('https://games.roproxy.com/v1/games/votes?universeIds=' + RBX_UNI),
+      g('https://games.roproxy.com/v1/games/' + RBX_UNI + '/favorites/count')]).then(function (w) {
+      var d = w[0] && w[0].data && w[0].data[0], v = w[1] && w[1].data && w[1].data[0];
+      if (!d) return null;
+      return { visits: d.visits || 0, playing: d.playing || 0, favorites: (w[2] && w[2].favoritesCount) || 0, up: v ? v.upVotes : 0, down: v ? v.downVotes : 0 };
+    });
+  }
+  window.LICZNIK_RBX = rbxPub;
   var strona = document.documentElement.getAttribute('data-strona') || 'start';
   // statystyki z gry w Roblox (serwer gry zlicza te same liczniki z kluczami rbx-*); linijka widoczna, gdy ktos juz zagral
   var rbx = document.getElementById('rbxLicznik');
@@ -18,6 +31,11 @@
     Promise.all(Array.prototype.map.call(el, function (e) { return get(e.getAttribute('data-rbx')); })).then(function (w) {
       w.forEach(function (v, i) { el[i].textContent = (v || 0).toLocaleString('pl-PL'); });
       if (w[0] > 0 || w[1] > 0) rbx.hidden = false;
+    });
+    rbxPub().then(function (p) {
+      if (!p) return;
+      rbx.querySelectorAll('[data-rbxpub]').forEach(function (e) { e.textContent = (p[e.getAttribute('data-rbxpub')] || 0).toLocaleString('pl-PL'); });
+      if (p.visits > 0) rbx.hidden = false;
     });
   }
   // autor: ?nieliczmnie – ta przeglądarka przestaje być liczona (zapamiętane), ?liczmnie – cofa
