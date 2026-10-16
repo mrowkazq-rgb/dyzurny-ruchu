@@ -35,7 +35,7 @@ h1 span{color:var(--ic)}
 <div class="wrap">
  <header>
   <h1 id="tyt">EP09-<span>002</span></h1>
-  <p class="sub">Pojazdy PKP Intercity ze Szczecina Głównego – modele odwzorowane ze zdjęć</p>
+  <p class="sub">Pojazdy ze Szczecina Głównego – modele 3D będące dodatkiem do gry</p>
  </header>
  <div class="scena" id="scena">
   <canvas id="cv" aria-label="Model 3D lokomotywy EP09-002, obracany myszką lub palcem"></canvas>
@@ -59,7 +59,7 @@ h1 span{color:var(--ic)}
   <div><dt>Układ osi</dt><dd>Bo′Bo′</dd></div>
   <div><dt>Numer UIC</dt><dd>91 51 1 150 013-7</dd></div>
  </dl>
- <p class="uwaga"><a href="../" style="color:var(--accent)">← Strona gry</a> · <a href="../gra/" style="color:var(--accent)">Zagraj w demo</a><br>Model wykonany ręcznie według wymiarów zmierzonych ze skanu i Twoich zdjęć: bryła z szybami w ramach, żaluzjami z lamelami, poręczami i reflektorami, malowanie PKP Intercity narysowane od nowa jako czysta grafika (układ kratek, okien, pasów i napisów zmierzony na zdjęciach obu boków).</p>
+ <p class="uwaga"><a href="../" style="color:var(--accent)">← Strona gry</a> · <a href="../gra/" style="color:var(--accent)">Zagraj w demo</a><br>Dyżurny Ruchu to gra o prowadzeniu ruchu na stacji – modele 3D są jej dodatkiem. Zostały wykonane ręcznie według wymiarów i zdjęć z Szczecina Głównego, malowanie narysowano od nowa. Są w miarę realistyczne, ale nie są dokładnymi kopiami – część detali jest uproszczona.</p>
 </div>
 
 
@@ -94,7 +94,7 @@ h1 span{color:var(--ic)}
    o.position.set(-c.x,-bb.min.y,-c.z);sc.add(o);const s2=Math.max(1,sz.x/16.7);cam.position.multiplyScalar(s2/SKALA);if(cel)cel.multiplyScalar(s2/SKALA);SKALA=s2;stan.hidden=true;},x=>{stan.hidden=false;if(x.total)stan.textContent='Wczytywanie modelu… '+Math.round(100*x.loaded/x.total)+'%';},()=>{stan.textContent='Nie udało się wczytać modelu.';});
  wczytaj('EP09');
  const DANE={EP09:['EP09-<span>002</span>',['16,74 m','2,974 m','4,30 m','160 km/h',"Bo′Bo′",'91 51 1 150 013-7']],EP09R:['EP09-<span>046 „Rodzyn”</span>',['16,74 m','2,974 m','4,30 m','160 km/h',"Bo′Bo′",'91 51 1 150 046-7']],EP07:['EP07-<span>1017</span>',['15,915 m','3,038 m','4,343 m','125 km/h',"Bo′Bo′",'91 51 3 150 142-7']],A:['Wagon <span>1/2 kl.</span>',['26,40 m','2,88 m','4,05 m','160 km/h',"2′2′",'61 51 39-90']],B:['Wagon <span>2 kl.</span>',['26,40 m','2,88 m','4,05 m','160 km/h',"2′2′",'61 51 20-90']],BC:['Wagon <span>Combo</span>',['26,40 m','2,88 m','4,05 m','160 km/h',"2′2′",'61 51 84-90']],IMPH:['Impuls <span>hybrydowy</span>',['74,40 m','2,84 m','4,15 m','160 km/h',"Bo′2′2′2′Bo′",'31WEbb-024']],SA:['Szynobus <span>SA136</span>',['55,57 m','2,883 m','4,185 m','120 km/h',"B′2′2′B′",'SA136-001']]};
- const OPIS={EP09R:'Ku pamięci EP09-046 „Rodzyna” – lokomotywa uległa wypadkowi i nie będzie już naprawiana. Jeździła w historycznych barwach: złoto-żółta z rdzawobrązowym pasem i pomarańczowym czołem, okrągłe reflektory. W grze prowadzi zawsze IC „Chrobry” i wszystkie pociągi specjalne. Model 1:1 odwzorowany ze zdjęć (własnych i z Wikimedia Commons).',EP09:'EP09-002 PKP Intercity – model 1:1 z pomiarów skanu 3D i zdjęć: fartuchy, wózki ze sprężynami, maźnice, zgarniacze, dach z pantografami.'};
+ const OPIS={EP09R:'Ku pamięci EP09-046 „Rodzyna” – lokomotywa uległa wypadkowi i nie będzie już naprawiana. Jeździła w historycznych barwach: złoto-żółta z rdzawobrązowym pasem i pomarańczowym czołem, okrągłe reflektory. W grze prowadzi zawsze IC „Chrobry” i wszystkie pociągi specjalne. Model wykonany na podstawie zdjęć (własnych i z Wikimedia Commons) – w miarę realistyczny, część detali uproszczona.',EP09:'EP09-002 PKP Intercity – model wykonany na podstawie skanu 3D i zdjęć: fartuchy, wózki ze sprężynami, maźnice, zgarniacze, dach z pantografami.'};
  const op=document.createElement('p');op.id='opis';op.style.cssText='max-width:900px;margin:8px auto;padding:0 16px;line-height:1.5';op.textContent=OPIS.EP09;document.querySelector('.widoki').after(op);
  Object.keys(DANE).forEach(k=>document.getElementById('m'+k).onclick=()=>{wczytaj(k);op.textContent=OPIS[k]||'';document.getElementById('tyt').innerHTML=DANE[k][0];document.querySelectorAll('.dane dd').forEach((d,i)=>d.textContent=DANE[k][1][i]);Object.keys(DANE).forEach(q=>document.getElementById('m'+q).setAttribute('aria-pressed',q===k));});
  const resize=()=>{const w=box.clientWidth,h=box.clientHeight;R.setPixelRatio(Math.min(2,devicePixelRatio||1));R.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();};
