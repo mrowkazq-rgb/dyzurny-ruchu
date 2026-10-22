@@ -15,9 +15,9 @@
   var RBX_UNI = 10771308325;
   function rbxPub() {
     var g = function (u) { return fetch(u).then(function (r) { return r.json(); }).catch(function () { return null; }); };
-    return Promise.all([g('https://games.roproxy.com/v1/games?universeIds=' + RBX_UNI), g('https://games.roproxy.com/v1/games/votes?universeIds=' + RBX_UNI),
+    return Promise.all([g('https://games.roproxy.com/v1/games?universeIds=' + RBX_UNI), g('https://games.roproxy.com/v1/games/' + RBX_UNI + '/votes'),
       g('https://games.roproxy.com/v1/games/' + RBX_UNI + '/favorites/count')]).then(function (w) {
-      var d = w[0] && w[0].data && w[0].data[0], v = w[1] && w[1].data && w[1].data[0];
+      var d = w[0] && w[0].data && w[0].data[0], v = w[1] && (w[1].data ? w[1].data[0] : w[1]);
       if (!d) return null;
       return { visits: d.visits || 0, playing: d.playing || 0, favorites: (w[2] && w[2].favoritesCount) || 0, up: v ? v.upVotes : 0, down: v ? v.downVotes : 0 };
     });
@@ -54,7 +54,7 @@
     hit('wyswietlenia').then(function (v) { pokaz('razem', v); });
     hit('d-' + dzis).then(function (v) { pokaz('dzis', v); });
     var nowy = !ls('dr_bylem');
-    if (nowy) { ls('dr_bylem', dzis); hit('unikalni'); hit('n-' + dzis); hit(/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'tel' : 'pc'); }
+    if (nowy) { ls('dr_bylem', dzis); hit('unikalni'); hit('n-' + dzis); hit(/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'tel' : 'komputer');   // klucz min. 3 znaki (Abacus odrzucal 'pc') }
     if (ls('dr_dzien') !== dzis) {        // pierwsze wejście tej przeglądarki dzisiaj
       ls('dr_dzien', dzis); hit('u-' + dzis);
       if (!nowy) { hit('powroty'); hit('p-' + dzis); }   // powracający: był już kiedyś wcześniej

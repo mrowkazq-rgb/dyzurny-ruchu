@@ -91,19 +91,20 @@ th{font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color
   function dz(d){return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');}
   var kolejka=Promise.resolve();
   function get(k){ // po kolei z odstępem – usługa przyjmuje 30 zapytań / 10 s
-    var p=kolejka.then(function(){return fetch(API+'/get/'+NS+'/'+k).then(function(r){return r.json();}).then(function(j){return j.value||0;}).catch(function(){return 0;});});
-    kolejka=p.then(function(){return new Promise(function(ok){setTimeout(ok,360);});});return p;}
+    var p=kolejka.then(function(){return proba(3);});
+    function proba(n){return fetch(API+'/get/'+NS+'/'+k).then(function(r){if(r.status===429&&n>0)return new Promise(function(ok){setTimeout(ok,2500);}).then(function(){return proba(n-1);});return r.json().then(function(j){return j.value||0;});}).catch(function(){return 0;});}
+    kolejka=p.then(function(){return new Promise(function(ok){setTimeout(ok,420);});});return p;}
   var f=function(v){return Number(v).toLocaleString('pl-PL');};
   (function(){var U=10771308325,g=function(u){return fetch(u).then(function(r){return r.json();}).catch(function(){return null;});};
-   return Promise.all([g('https://games.roproxy.com/v1/games?universeIds='+U),g('https://games.roproxy.com/v1/games/votes?universeIds='+U),g('https://games.roproxy.com/v1/games/'+U+'/favorites/count')]).then(function(w){
-    var d=w[0]&&w[0].data&&w[0].data[0],v=w[1]&&w[1].data&&w[1].data[0];return d?{visits:d.visits||0,playing:d.playing||0,favorites:(w[2]&&w[2].favoritesCount)||0,up:v?v.upVotes:0,down:v?v.downVotes:0}:null;});})().then(function(p){if(!p)return;[['visits','p-vis'],['playing','p-pl'],['favorites','p-fav'],['up','p-up'],['down','p-down']].forEach(function(q){document.getElementById(q[1]).textContent=f(p[q[0]]);});});
+   return Promise.all([g('https://games.roproxy.com/v1/games?universeIds='+U),g('https://games.roproxy.com/v1/games/'+U+'/votes'),g('https://games.roproxy.com/v1/games/'+U+'/favorites/count')]).then(function(w){
+    var d=w[0]&&w[0].data&&w[0].data[0],v=w[1]&&(w[1].data?w[1].data[0]:w[1]);return d?{visits:d.visits||0,playing:d.playing||0,favorites:(w[2]&&w[2].favoritesCount)||0,up:v?v.upVotes:0,down:v?v.downVotes:0}:null;});})().then(function(p){if(!p)return;[['visits','p-vis'],['playing','p-pl'],['favorites','p-fav'],['up','p-up'],['down','p-down']].forEach(function(q){document.getElementById(q[1]).textContent=f(p[q[0]]);});});
   setTimeout(function(){ // Roblox po licznikach strony (kolejka zapytan)
   [['rbx-gracze','r-gr'],['rbx-wejscia','r-wej'],['rbx-start','r-st'],['rbx-wyzw-start','r-wst'],['rbx-koniec','r-kon'],['rbx-przerwane','r-prz'],['rbx-wyzw','r-wy'],['rbx-osi','r-osi']].forEach(function(q){get(q[0]).then(function(v){document.getElementById(q[1]).textContent=f(v);});});
   (function(){var dn=[];for(var i=13;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);dn.push(d);}
    Promise.all(dn.map(function(d){return Promise.all([get('rbx-u-'+dz(d)),get('rbx-n-'+dz(d)),get('rbx-d-'+dz(d)),get('rbx-k-'+dz(d))]);})).then(function(w){
     document.querySelector('#rtab tbody').innerHTML=dn.slice().reverse().map(function(d,i){var x=w[w.length-1-i];return '<tr><td>'+d.toLocaleDateString('pl-PL')+'</td><td>'+f(x[0])+'</td><td>'+f(x[1])+'</td><td>'+f(x[2])+'</td><td>'+f(x[3])+'</td></tr>';}).join('');});})();
   },0);
-  [['wyswietlenia','t-wys'],['unikalni','t-uni'],['powroty','t-pow'],['demo-start','t-start'],['demo-wejscia','t-wej'],['demo-koniec','t-kon'],['pc','t-pc'],['tel','t-tel']].forEach(function(q){get(q[0]).then(function(v){document.getElementById(q[1]).textContent=f(v);});});
+  [['wyswietlenia','t-wys'],['unikalni','t-uni'],['powroty','t-pow'],['demo-start','t-start'],['demo-wejscia','t-wej'],['demo-koniec','t-kon'],['komputer','t-pc'],['tel','t-tel']].forEach(function(q){get(q[0]).then(function(v){document.getElementById(q[1]).textContent=f(v);});});
   var dni=[],t=new Date();for(var i=13;i>=0;i--){var d=new Date(t);d.setDate(t.getDate()-i);dni.push(d);}
   Promise.all(dni.map(function(d){return Promise.all([get('d-'+dz(d)),get('u-'+dz(d)),get('n-'+dz(d)),get('p-'+dz(d))]);})).then(function(w){
     rysuj(dni.map(function(d,i){return {d:d,w:w[i][0],u:w[i][1],n:w[i][2],p:w[i][3]};}));document.getElementById('stan').textContent='Stan na '+new Date().toLocaleString('pl-PL',{dateStyle:'medium',timeStyle:'short'})+'.';});
