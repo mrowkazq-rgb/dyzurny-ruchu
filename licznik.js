@@ -54,7 +54,7 @@
     hit('wyswietlenia').then(function (v) { pokaz('razem', v); });
     hit('d-' + dzis).then(function (v) { pokaz('dzis', v); });
     var nowy = !ls('dr_bylem');
-    if (nowy) { ls('dr_bylem', dzis); hit('unikalni'); hit('n-' + dzis); hit(/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'tel' : 'komputer');   // klucz min. 3 znaki (Abacus odrzucal 'pc') }
+    if (nowy) { ls('dr_bylem', dzis); hit('unikalni'); hit('n-' + dzis); hit(/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? 'tel' : 'komputer'); /* klucz min. 3 znaki (Abacus odrzucal 'pc') */ }
     if (ls('dr_dzien') !== dzis) {        // pierwsze wejście tej przeglądarki dzisiaj
       ls('dr_dzien', dzis); hit('u-' + dzis);
       if (!nowy) { hit('powroty'); hit('p-' + dzis); }   // powracający: był już kiedyś wcześniej
